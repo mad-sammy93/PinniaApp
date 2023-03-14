@@ -1,0 +1,114 @@
+{
+  "tasks": [
+    {
+      "id": 30,
+      "name": "Grocery List",
+      "isFav": true,
+      "list_items": [
+        {
+          "id": 1,
+          "name": "tomatoes"
+        },
+        {
+          "id": 2,
+          "name": "potaotes"
+        },
+        {
+          "id": 3,
+          "name": "Garlic"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "name": "Shopping List",
+      "isFav": true,
+      "list_items": [
+        {
+          "id": 1,
+          "name": "Scissors"
+        },
+        {
+          "id": 2,
+          "name": "tapes"
+        },
+        {
+          "id": 3,
+          "name": "Glue"
+        },
+        {
+          "id": 4,
+          "name": "thread"
+        }
+      ]
+    },
+    {
+      "id": 7786,
+      "name": "Monday",
+      "isFav": false,
+      "list_items": [
+        {
+          "id": 2948,
+          "name": "Coffee"
+        },
+        {
+          "id": 7723,
+          "name": "Lunch"
+        }
+      ]
+    },
+    {
+      "id": 9166,
+      "name": "Tuesday",
+      "isFav": false,
+      "list_items": [
+        {
+          "id": 5676,
+          "name": "WORK"
+        },
+        {
+          "id": 5462,
+          "name": "WORK"
+        },
+        {
+          "id": 2475,
+          "name": "WORK"
+        }
+      ]
+    },
+    {
+      "id": 139,
+      "name": "Wednesday",
+      "isFav": false,
+      "list_items": [
+        {
+          "id": 7009,
+          "name": "Dinner at 5:00pm"
+        },
+        {
+          "id": 3840,
+          "name": "Fifa match"
+        }
+      ]
+    },
+    {
+      "id": 2956,
+      "name": "sadsadsad",
+      "isFav": false,
+      "list_items": [
+        {
+          "id": 3111,
+          "name": "dsadsadsad"
+        }
+      ]
+    }
+  ],
+  "user": [
+    {
+      "id": 1,
+      "name": "Sambert",
+      "email": "sambert@gmail.com",
+      "password": "*12344"
+    }
+  ]
+}
