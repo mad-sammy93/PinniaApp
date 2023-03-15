@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth/authStore";
 import MainSection from "../../UI/MainSection.vue";
+import router from '../../../router'
 
 export default {
   setup() {
@@ -35,6 +36,13 @@ export default {
     };
   },
   components: { MainSection },
+  mounted() {
+        console.warn("mount")
+        let loggedIn = localStorage.getItem('authToken')
+        if(loggedIn) {
+                router.push('/')
+        }
+    }
 };
 </script>
 <template>

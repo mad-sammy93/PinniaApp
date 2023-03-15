@@ -1,7 +1,8 @@
 <script>
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
 import { useAuthStore } from "@/stores/auth/authStore";
 import MainSection from "../../UI/MainSection.vue";
+import router from '../../../router'
 
 export default {
     setup() {
@@ -22,13 +23,25 @@ export default {
                 });
             }
         };
+        
+        onMounted(() => {
+            console.warn("mount")
+            const loggedIn = localStorage.getItem('authToken')
+
+            console.warn(loggedIn)
+            if (loggedIn) {
+                router.push('/')
+            }
+        }) 
+
         return {
             submitLoginData,
             email,
             password,
-        };
+        }
     },
     components: { MainSection },
+   
 };
 </script>
 

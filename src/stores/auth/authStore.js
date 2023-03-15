@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from 'axios'
-
+import router from '../../router/index'
 
 export const useAuthStore = defineStore('authStore', { 
     state: () => ({
@@ -13,6 +13,7 @@ export const useAuthStore = defineStore('authStore', {
             //   }
         ],
         // loading : false
+        authToken: ''
     }),
 
     actions: {
@@ -31,49 +32,60 @@ export const useAuthStore = defineStore('authStore', {
         },
         async login(payload) {
 
-            console.log(payload.name)
+            console.log(payload.email)
+            console.log(payload.password)
+                let result = await axios.post(
+                    'https://nextjs-dev.deploy.nl/auth/login',payload)
+                    .then(response => {
+                        console.log(response.data)
+                        // this.tasks = response.data
+                        localStorage.setItem("authToken", response.data.accessToken);
+                        // router.push({name:'home'})
+                        router.push('/')
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        // this.errored = true
+                    })
+                    .finally(() => this.loading = false)
+                
+
+                //   if(result.status == 201) {
+                //     alert('Login success')
+                //     // console.log(result.data.accessToken)
+                //     localStorage.setItem("authToken", JSON.stringify(result.data.accessToken));
+                //     this.$router.push({name:'home'})
+                //   } else {
+                //     confirm('failed')
+                //   }
         },
         async signup(payload) {
             console.log(payload.name)
-            // if(this.email === '' || !this.email.includes('@') || this.password.length < 6){
+            // if(payload.email === '' || !payload.email.includes('@') || payload.password.length < 6){
             //     this.formIsValid = false
             // }
 
-            // let result = await axios.post("http://localhost:3000/users",{
-            //             name: name,
-            //             email: email,
-            //             password: password,
-            //         },
-            //     ).then(response => {
-            //         console.log(response.data)
-            //         // this.tasks = response.data
-            //     })
-            //     .catch(error => {
-            //         console.log(error)
-            //         // this.errored = true
-                // })
+                let result = await axios.post("https://nextjs-dev.deploy.nl/auth/register", payload ,
+                )
+                .then(response => {
+                    console.log(response.data)
+                    // this.tasks = response.data
+                })
+                .catch(error => {
+                    console.log(error)
+                    // this.errored = true
+                })
+                .finally(() => this.loading = false)
 
-                // let result = await axios.post("https://nextjs-dev.deploy.nl/auth/register", payload ,
-                // )
-                // .then(response => {
-                //     console.log(response.data)
-                //     // this.tasks = response.data
-                // })
-                // .catch(error => {
-                //     console.log(error)
-                //     // this.errored = true
-                // })
-                // .finally(() => this.loading = false)
+                console.debug(result);
+                if(result.status == 201){
+                    alert('Signup success');
+                    // localStorage.setItem("user-info", JSON.stringify(result.config.data))
+                    this.$router.push({name:'login'})
 
-                // console.debug(result);
-                // if(result.status == 201){
-                //     alert('Signup success');
-                //     // localStorage.setItem("user-info", JSON.stringify(result.config.data))
-                //     this.$router.push({name:'login'})
-
-                // }else{
-                //     alert('failed');
-                // }
+                }else{
+                    alert('failed');
+                }
 
 
             // }catch(error:any) {
@@ -107,6 +119,10 @@ export const useAuthStore = defineStore('authStore', {
             //     this.error = err.message || 'Failed to authenticate. Check login data';
             // }
         },
+        logout() {
+            this.authToken = '';
+          },
+
         hello(name){
             console.log(name)
             // return 'hello '+name;

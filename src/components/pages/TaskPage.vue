@@ -1,10 +1,10 @@
 <script>
-import { ref } from 'vue';
-
+import { ref, onMounted } from 'vue';
+import { useTaskStore } from '../../stores/Task/TaskStore';
+import router from '../../router'
 
 import TaskDetail from '../Tasks/TaskDetail.vue'
 import TaskForm from '../Tasks/TaskForm.vue';
-import { useTaskStore } from '../../stores/Task/TaskStore';
 
 export default {
     components: {
@@ -18,6 +18,17 @@ export default {
     taskStore.getTasks();
 
     const filters = ref('all');
+
+    onMounted(() => {
+            console.warn("mount")
+            const loggedIn = localStorage.getItem('authToken')
+
+            console.warn(loggedIn)
+            if (!loggedIn) {
+                router.push('/register')
+            }
+        }) 
+
 
     return {taskStore, filters};
   }
