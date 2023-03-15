@@ -12,48 +12,79 @@ export const useAuthStore = defineStore('authStore', {
             //     "password": "123456"
             //   }
         ],
-        loading : false
+        // loading : false
     }),
 
     actions: {
+        async getUsers(){
+            const res = axios
+            .get('http://localhost:3000/users')
+            .then(response => {
+                console.log(response.data)
+                this.users = response.data
+            })
+            .catch(error => {
+                console.log(error)
+                this.errored = true
+            })
+            .finally(() => this.loading = false)
+        },
+        async login(payload) {
 
-        async signup(name,email,password) {
-            // console.log(this.email+' '+ this.name +' '+ this.password)
+            console.log(payload.name)
+        },
+        async signup(payload) {
+            console.log(payload.name)
+            // if(this.email === '' || !this.email.includes('@') || this.password.length < 6){
+            //     this.formIsValid = false
+            // }
 
-                let result = await axios.post("https://nextjs-dev.deploy.nl/auth/register",{
-                        name: name,
-                        email: email,
-                        password: password,
-                    },
-                )
-                .then(response => {
-                    console.log(response.data)
-                    // this.tasks = response.data
-                })
-                .catch(error => {
-                    console.log(error)
-                    // this.errored = true
-                })
-                .finally(() => this.loading = false)
+            // let result = await axios.post("http://localhost:3000/users",{
+            //             name: name,
+            //             email: email,
+            //             password: password,
+            //         },
+            //     ).then(response => {
+            //         console.log(response.data)
+            //         // this.tasks = response.data
+            //     })
+            //     .catch(error => {
+            //         console.log(error)
+            //         // this.errored = true
+                // })
 
-                console.debug(result);
-                if(result.status == 201){
-                    confirm('Signup success');
-                    // localStorage.setItem("user-info", JSON.stringify(result.config.data))
-                    this.$router.push({name:'login'})
+                // let result = await axios.post("https://nextjs-dev.deploy.nl/auth/register", payload ,
+                // )
+                // .then(response => {
+                //     console.log(response.data)
+                //     // this.tasks = response.data
+                // })
+                // .catch(error => {
+                //     console.log(error)
+                //     // this.errored = true
+                // })
+                // .finally(() => this.loading = false)
 
-                }else{
-                    confirm('failed');
-                }
+                // console.debug(result);
+                // if(result.status == 201){
+                //     alert('Signup success');
+                //     // localStorage.setItem("user-info", JSON.stringify(result.config.data))
+                //     this.$router.push({name:'login'})
+
+                // }else{
+                //     alert('failed');
+                // }
+
+
             // }catch(error:any) {
             // //     this.error = err.message || 'Failed to authenticate. Check login data';
             //     console.log(error.message)
             // }
 
 
-            if(this.email === '' || !this.email.includes('@') || this.password.length < 6){
-                this.formIsValid = false
-            }
+            // if(this.email === '' || !this.email.includes('@') || this.password.length < 6){
+            //     this.formIsValid = false
+            // }
 
             // const actionPayload = {
             //     name: this.name,
@@ -77,7 +108,8 @@ export const useAuthStore = defineStore('authStore', {
             // }
         },
         hello(name){
-            return 'hello '+name;
+            console.log(name)
+            // return 'hello '+name;
         }
     },
     getters:{

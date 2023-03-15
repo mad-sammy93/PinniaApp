@@ -94,11 +94,34 @@
     {
       "id": 2956,
       "name": "sadsadsad",
-      "isFav": false,
+      "isFav": true,
       "list_items": [
         {
           "id": 3111,
           "name": "dsadsadsad"
+        }
+      ]
+    },
+    {
+      "id": 4321,
+      "name": "cdscsacsacsa",
+      "isFav": true,
+      "list_items": [
+        {
+          "id": 3594,
+          "name": ""
+        },
+        {
+          "id": 3336,
+          "name": "sacsacsacsac"
+        },
+        {
+          "id": 3832,
+          "name": "cascsacsac"
+        },
+        {
+          "id": 3929,
+          "name": "acsacsac"
         }
       ]
     }
@@ -109,6 +132,15 @@
       "name": "Sambert",
       "email": "sambert@gmail.com",
       "password": "*12344"
+    },
+    {
+      "name": {
+        "id": 39,
+        "name": "Sambert",
+        "email": "sammy@gmail.com",
+        "password": "!Silver911"
+      },
+      "id": 2
     }
   ]
 }

@@ -12,7 +12,7 @@ const Login = defineAsyncComponent(() =>
   import('../components/pages/auth/TheLogin.vue')
 );
 const Register = defineAsyncComponent(() =>
-  import('../components/pages/auth/TheRegister.vue')
+  import('@/components/pages/auth/TheRegister.vue')
 );
 
 const router = createRouter({
