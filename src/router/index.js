@@ -1,9 +1,16 @@
 import { defineAsyncComponent } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router'
-import TaskDetail from '../components/pages/TaskPage.vue'
-// const TaskDetail = defineAsyncComponent(() =>
-//   import('../components/Tasks/TaskDetail.vue')
-// );
+
+// Async Components
+const TaskPage = defineAsyncComponent(() =>
+  import('../components/pages/TaskPage.vue')
+);
+const DocsDetail = defineAsyncComponent(() =>
+  import('../components/pages/Docs/DocsDetail.vue')
+);
+const Login = defineAsyncComponent(() =>
+  import('../components/pages/auth/TheLogin.vue')
+);
 const Register = defineAsyncComponent(() =>
   import('../components/pages/auth/TheRegister.vue')
 );
@@ -15,7 +22,12 @@ const router = createRouter({
         {
         path: '/',
         name: 'Home',
-        component: TaskDetail
+        component: TaskPage
+        },
+        {
+          path: '/docs',
+          name: 'docs',
+          component: DocsDetail
         },
         // {
         //   path: '/lists',
@@ -48,7 +60,7 @@ const router = createRouter({
             // route level code-splitting
             // this generates a separate chunk (About.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
-            component: () => import('../components/pages/auth/TheLogin.vue')
+            component: Login
         },
         {
             path: '/:notFound(.*)',

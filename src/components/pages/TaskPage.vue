@@ -1,6 +1,5 @@
 <script>
 import { ref } from 'vue';
-import { RouterView } from 'vue-router'
 
 
 import TaskDetail from '../Tasks/TaskDetail.vue'
