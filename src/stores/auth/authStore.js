@@ -81,7 +81,8 @@ export const useAuthStore = defineStore('authStore', {
                 if(result.status == 201){
                     alert('Signup success');
                     // localStorage.setItem("user-info", JSON.stringify(result.config.data))
-                    this.$router.push({name:'login'})
+                    
+                    router.push('/login')
 
                 }else{
                     alert('failed');
@@ -121,6 +122,9 @@ export const useAuthStore = defineStore('authStore', {
         },
         logout() {
             this.authToken = '';
+            localStorage.removeItem('authToken')
+
+            router.push('/login')
           },
 
         hello(name){

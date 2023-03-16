@@ -114,6 +114,7 @@ form button {
 }
 .submit__button button:hover {
   border: 1px solid white;
+  background-color: #f7c82e;
   /* width: 100%; */
 }
 .submit__button.form-control {
@@ -122,6 +123,11 @@ form button {
   align-items: stretch;
   flex-direction: column;
 }
+.submit__button.form-control button{
+    margin-top: 30px;
+    transition: 350ms color;
+}
+
 a {
   color: black;
   text-decoration: none;

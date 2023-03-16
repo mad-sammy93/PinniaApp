@@ -1,9 +1,21 @@
 <script>
 import { RouterView } from 'vue-router'
+import { useAuthStore } from './stores/auth/authStore';
 
-setup() {
-  handleLogout(){
+export default {
+  setup() {
 
+    const authStore = useAuthStore();
+
+
+    const handleLogout = () => {
+      authStore.logout();
+    }
+
+
+    return {
+      handleLogout
+    }
   }
 }
 
@@ -14,10 +26,8 @@ setup() {
     <header>
       <img src="@/assets/logo.svg" alt="">
       <h1>Pinia Tasks</h1>
-      <button @click="handleLogout">Logout</button>
+      <button @click="handleLogout" >Logout</button>
     </header>
-
     <RouterView />
-      
   </main>
 </template>
