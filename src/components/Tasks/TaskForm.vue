@@ -1,14 +1,3 @@
-<template>
-    <form @submit.prevent="handleSubmit">
-        <input 
-            type="text"
-            placeholder="I need to ..."
-            v-model="newTask"
-            >
-            <button type="submit">Add</button>
-    </form>
-</template>
-
 <script>
 import { ref } from 'vue';
 import { useTaskStore } from '@/stores/Task/TaskStore';
@@ -18,25 +7,46 @@ export default {
     setup () {
            
         const taskStore = useTaskStore();
-        const newTask = ref('')
+        const newTask = ref('');
+        const newSubTask = ref('')
 
         const handleSubmit = () => {
             if(newTask.value.length >0) {
                 console.log(newTask.value);
                 taskStore.addTask({
-                    id:Math.floor(Math.random() * 10000),
+                    // id:Math.floor(Math.random() * 10000),
+                    // id:null,
                     name:newTask.value,
-                    isFav:false,
-                    list_items:[]
+                    // isFav:false,
+                    list_items:[{
+                        // id:null,
+                        name:newSubTask.value
+                    }]
                 })
             }
             console.log(taskStore)
             newTask.value = '';
         }
-        return { handleSubmit, newTask }
+        return { handleSubmit, newTask , newSubTask}
     }
 }
 </script>
+
+<template>
+    <form @submit.prevent="handleSubmit">
+        <input 
+            type="text"
+            placeholder="Add title ..."
+            v-model="newTask"
+            >
+            <!-- <input 
+            type="text"
+            placeholder="I need to..."
+            v-model="newSubTask"
+            > -->
+            <button type="submit">Add</button>
+    </form>
+</template>
 
 <style scoped>
 

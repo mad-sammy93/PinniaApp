@@ -25,7 +25,9 @@ export default {
 
             console.warn(loggedIn)
             if (!loggedIn) {
-                router.push('/register')
+                router.push('/login')
+            }else{
+              // taskStore.getTasks();
             }
         }) 
 
@@ -61,6 +63,7 @@ export default {
       <div class="task-list" v-if="filters === 'favs'">
         <p>You have {{ taskStore.favCount }} Fav Tasks pending</p>
         <div class="list-item" v-for="task in taskStore.isFav">
+          {{ task }}
           <TaskDetail :task="task"/>
         </div>
       </div>

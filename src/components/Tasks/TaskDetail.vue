@@ -7,7 +7,7 @@ import { ref } from 'vue';
     export default {
         props: ['task'],
         components: {
-            TaskItem
+            TaskItem,
         },
         setup() {
 
@@ -28,6 +28,7 @@ import { ref } from 'vue';
             // // console.log(newSubTask.value)
             // newSubTask.value = '';
             // }
+           
             return {  
                 newSubTask ,
                 taskStore,
@@ -43,20 +44,21 @@ import { ref } from 'vue';
 <template>
     <div class="task_wrapper">
         <div class="task">
-            <!-- <span>{{ task.id }}</span> -->
+            <span>{{ task.id }}</span>
             <h3>{{ task.name }}</h3>
             <div class="icons">
                 <span 
                     class="material-icons"
                     @click="taskStore.deleteTask(task.id)"
                 >delete</span>
-                <span 
+                <!-- <span 
                     class="material-icons"
                     :class= "{active: task.isFav}"
                     @click="taskStore.toggleFav(task.id)"
-                >favorite</span>
+                >favorite</span> -->
             </div>
         </div>
+        <button @click="taskStore.loadTaskDetails(task.id)">Show details</button>
         <div  class="ind-item" v-for="item in task.list_items">
             <TaskItem :item="item"/>
         </div>
@@ -73,10 +75,11 @@ import { ref } from 'vue';
                     @click="{
                     // if(newSubTask.value.length >0) {
                         taskStore.addSubTask(task.id,{
-                                id:Math.floor(Math.random() * 10000),
+                                // id:Math.floor(Math.random() * 10000),
                                 name:newSubTask
                         });
                         newSubTask = '';
+                        taskStore.getTasks();
                     // }
                     }" >
                     <span  class="material-icons" >add</span>

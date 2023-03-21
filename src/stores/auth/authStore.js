@@ -17,19 +17,19 @@ export const useAuthStore = defineStore('authStore', {
     }),
 
     actions: {
-        async getUsers(){
-            const res = axios
-            .get('http://localhost:3000/users')
-            .then(response => {
-                console.log(response.data)
-                this.users = response.data
-            })
-            .catch(error => {
-                console.log(error)
-                this.errored = true
-            })
-            .finally(() => this.loading = false)
-        },
+        // async getUsers(){
+        //     const res = axios
+        //     .get('http://localhost:3000/users')
+        //     .then(response => {
+        //         console.log(response.data)
+        //         this.users = response.data
+        //     })
+        //     .catch(error => {
+        //         console.log(error)
+        //         this.errored = true
+        //     })
+        //     .finally(() => this.loading = false)
+        // },
         async login(payload) {
 
             console.log(payload.email)
@@ -78,15 +78,15 @@ export const useAuthStore = defineStore('authStore', {
                 .finally(() => this.loading = false)
 
                 console.debug(result);
-                if(result.status == 201){
-                    alert('Signup success');
-                    // localStorage.setItem("user-info", JSON.stringify(result.config.data))
+                // if(result.status == 201){
+                //     alert('Signup success');
+                //     // localStorage.setItem("user-info", JSON.stringify(result.config.data))
                     
-                    router.push('/login')
+                //     router.push('/login')
 
-                }else{
-                    alert('failed');
-                }
+                // }else{
+                //     alert('failed');
+                // }
 
 
             // }catch(error:any) {
