@@ -52,6 +52,7 @@ export const useAuthStore = defineStore('authStore', {
                         localStorage.setItem("authToken", response.data.accessToken);
 
                         this.user.status = { loggedIn: true }
+                        this.user.email = payload.email
                         localStorage.setItem("user",payload.email );
                         // router.push({name:'home'})
                         router.push('/')
