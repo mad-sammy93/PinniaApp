@@ -18,16 +18,7 @@ export default {
     const handleLogout = () => {
       authStore.logout();
     }
-
-
-    const showModal = () => {
-      console.log('show_MODAL')
-        isModalVisible.value = true;
-      }
-    const closeModal = () => {
-      console.log('close_MODAL')
-        isModalVisible.value = false;
-      }
+    
     return {
       // users,
       authStore,
