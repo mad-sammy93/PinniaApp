@@ -1,6 +1,8 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useTaskStore } from '../../stores/Task/TaskStore';
+// import { useAuthStore } from '../../stores/auth/authStore';
+
 import router from '../../router'
 
 import TaskDetail from '../Tasks/TaskDetail.vue'
@@ -13,6 +15,9 @@ export default {
   },
   setup(){
     const taskStore = useTaskStore(); 
+    // const authStore = useAuthStore(); 
+    
+    // initialState
 
     //fetch tasks
     taskStore.getTasks();
@@ -32,7 +37,10 @@ export default {
         }) 
 
 
-    return {taskStore, filters};
+    return {
+      taskStore,
+      filters
+    };
   }
 }
 </script>

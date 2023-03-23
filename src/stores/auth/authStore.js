@@ -2,18 +2,28 @@ import { defineStore } from "pinia";
 import axios from 'axios'
 import router from '../../router/index'
 
+
+
+
+// const user = localStorage.getItem('user');
+// const userState = user ? { status: { loggedIn: true }, user }
+//   : { status: { loggedIn: false }, user: null };
+
 export const useAuthStore = defineStore('authStore', { 
     state: () => ({
-        users: [
-            // {
-            //     "id": 1,
-            //     "name": "Sam",
-            //     "email": "sam@gmail.com",
-            //     "password": "123456"
-            //   }
+        user: [
+            {
+                "id": 1,
+                "name": "Sam",
+                "email": "sam@gmail.com",
+                "password": "123456",
+                "status" : { 
+                    loggedIn: false 
+                }
+            }
         ],
-        // loading : false
-        authToken: ''
+        loading : false,
+        authToken: '',
     }),
 
     actions: {
@@ -37,9 +47,12 @@ export const useAuthStore = defineStore('authStore', {
                 let result = await axios.post(
                     'https://nextjs-dev.deploy.nl/auth/login',payload)
                     .then(response => {
-                        console.log(response.data)
+                        console.log(response)
                         // this.tasks = response.data
                         localStorage.setItem("authToken", response.data.accessToken);
+
+                        this.user.status = { loggedIn: true }
+                        localStorage.setItem("user",payload.email );
                         // router.push({name:'home'})
                         router.push('/')
                     })
@@ -59,17 +72,46 @@ export const useAuthStore = defineStore('authStore', {
                 //     confirm('failed')
                 //   }
         },
+        async refreshToken() {
+            // const token = localStorage.getItem('authToken');
+
+            // const config = {
+            //     headers: { Authorization: `Bearer ${token}` }
+            // };
+
+            let result = await axios
+                .post('https://nextjs-dev.deploy.nl/auth/refresh')
+                .then(response => {
+                    console.log(response)
+                    // this.tasks = response.data
+                    localStorage.setItem("authToken", response.data.accessToken);
+                    // localStorage.setItem("user",payload.email );
+                    // router.push({name:'home'})
+                    // router.push('/')
+                    // router.go(-1) 
+                    // router.back()
+                })
+                .catch(error => {
+                    console.log(error)
+                    // this.errored = true
+                })
+                .finally(() => this.loading = false)
+                
+        },
         async signup(payload) {
             console.log(payload.name)
             // if(payload.email === '' || !payload.email.includes('@') || payload.password.length < 6){
             //     this.formIsValid = false
             // }
-
+            
                 let result = await axios.post("https://nextjs-dev.deploy.nl/auth/register", payload ,
                 )
                 .then(response => {
                     console.log(response.data)
                     // this.tasks = response.data
+
+
+                    // user.sendEmailVerification(actionCodeSettings);
                 })
                 .catch(error => {
                     console.log(error)
@@ -123,7 +165,8 @@ export const useAuthStore = defineStore('authStore', {
         logout() {
             this.authToken = '';
             localStorage.removeItem('authToken')
-
+            localStorage.removeItem('user')
+            this.user.status = { loggedIn: false }
             router.push('/login')
           },
 

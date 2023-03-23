@@ -72,17 +72,17 @@ const router = createRouter({
 
 })
 
-// router.beforeEach((to, _from, next) => {
-//     const isAuthenticated = localStorage.getItem('authToken')
-//         if (to.matched.some((record) => record.meta.requiresAuth)) {
-//             if (!isAuthenticated) {
-//                 next('/register')
-//             } else {
-//                 next()
-//             }
-//         } else {
-//         next()
-//     }
-// })
+router.beforeEach((to, _from, next) => {
+    const isAuthenticated = localStorage.getItem('authToken')
+        // if (to.matched.some((record) => record.meta.requiresAuth)) {
+        //     if (!isAuthenticated) {
+        //         next('/register')
+        //     } else {
+        //         next()
+        //     }
+        // } else {
+        next()
+        // }
+})
 
 export default router

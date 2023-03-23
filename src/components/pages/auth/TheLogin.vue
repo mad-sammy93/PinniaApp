@@ -28,7 +28,7 @@ export default {
             console.warn("mount")
             const loggedIn = localStorage.getItem('authToken')
 
-            console.warn(loggedIn)
+            // console.warn(loggedIn)
             if (loggedIn) {
                 router.push('/')
             }
@@ -58,7 +58,7 @@ export default {
                 </div>
                 <div class="form-control submit__button">
                     <button type="submit">Login</button>
-                    <router-link class="link" to="/login">Or else Register</router-link>
+                    <router-link class="link" to="/register">Or else Register</router-link>
                 </div>
             </form>
         </div>

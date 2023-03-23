@@ -1,4 +1,4 @@
-<script>
+<script lang="js">
 import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth/authStore";
 import MainSection from "../../UI/MainSection.vue";

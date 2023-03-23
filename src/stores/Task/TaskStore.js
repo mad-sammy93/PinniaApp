@@ -11,6 +11,7 @@ export const useTaskStore = defineStore('taskStore', {
     actions: {
         async getTasks (){
             this.loading = true
+            console.log(this.loading)
             // const res = await fetch('http://localhost:3000/tasks')
             // const data = await res.json()
             const token = localStorage.getItem('authToken');
@@ -72,16 +73,17 @@ export const useTaskStore = defineStore('taskStore', {
             const result = await axios
             .post('https://nextjs-dev.deploy.nl/List',task, config)
             .then(response => {
-                console.log(response.data)
+                console.log(response.data);
 
                 const newTask = this.tasks.find(t => t.id === task.id);
-                newTask = response.data;         
+                // newTask = response.data;         
 
-                // this.tasks.push(task);
+                console.log(newTask)
+                // newTask.push(response.data);
                 // this.tasks = this.tasks.filter(t => {
                 //     return t.id !== id
                 // })
-                console.log(this.tasks) 
+                // console.log(this.tasks) 
             })
             .catch(error => {
                 console.log(error)
