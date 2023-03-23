@@ -8,7 +8,7 @@ export default {
   setup() {
     const authStore = useAuthStore();
     const userState = authStore.user
-      console.log(userState)
+      // console.log(userState)
     const handleLogout = () => {
       authStore.logout();
     }

@@ -10,18 +10,22 @@ import router from '../../router/index'
 //   : { status: { loggedIn: false }, user: null };
 
 export const useAuthStore = defineStore('authStore', { 
+    id: 'auth',
     state: () => ({
-        user: [
-            {
-                "id": 1,
-                "name": "Sam",
-                "email": "sam@gmail.com",
-                "password": "123456",
-                "status" : { 
-                    loggedIn: false 
-                }
-            }
-        ],
+        user: null,
+        // [
+        //     {
+        //         "id": 1,
+        //         "name": "Sam",
+        //         "email": "sam@gmail.com",
+        //         "password": "123456",
+        //         "status" : { 
+        //             loggedIn: false 
+        //         }
+        //     }
+        // ],
+
+        refreshTokenTimeout: null,
         loading : false,
         authToken: '',
     }),
@@ -47,12 +51,15 @@ export const useAuthStore = defineStore('authStore', {
                 let result = await axios.post(
                     'https://nextjs-dev.deploy.nl/auth/login',payload)
                     .then(response => {
-                        console.log(response)
+                        this.user = JSON.stringify(response)
+                        console.log(this.user)
+                        console.table(response.headers)
                         // this.tasks = response.data
                         localStorage.setItem("authToken", response.data.accessToken);
 
-                        this.user.status = { loggedIn: true }
-                        this.user.email = payload.email
+
+                        // this.user.status = { loggedIn: true }
+                        // this.user.email = payload.email
                         localStorage.setItem("user",payload.email );
                         // router.push({name:'home'})
                         router.push('/')
@@ -73,6 +80,16 @@ export const useAuthStore = defineStore('authStore', {
                 //     confirm('failed')
                 //   }
         },
+        startRefreshTokenTimer() {
+            // parse json object from base64 encoded jwt token
+            const jwtBase64 = this.user.jwtToken.split('.')[1];
+            const jwtToken = JSON.parse(atob(jwtBase64));
+    
+            // set a timeout to refresh the token a minute before it expires
+            const expires = new Date(jwtToken.exp * 1000);
+            const timeout = expires.getTime() - Date.now() - (60 * 1000);
+            this.refreshTokenTimeout = setTimeout(this.refreshToken, timeout);
+        },    
         async refreshToken() {
             // const token = localStorage.getItem('authToken');
 
@@ -81,7 +98,9 @@ export const useAuthStore = defineStore('authStore', {
             // };
 
             let result = await axios
-                .post('https://nextjs-dev.deploy.nl/auth/refresh')
+                .post('https://nextjs-dev.deploy.nl/auth/refresh',{
+                    withCredentials: true,
+                  })
                 .then(response => {
                     console.log(response)
                     // this.tasks = response.data
@@ -166,8 +185,9 @@ export const useAuthStore = defineStore('authStore', {
         logout() {
             this.authToken = '';
             localStorage.removeItem('authToken')
-            localStorage.removeItem('user')
-            this.user.status = { loggedIn: false }
+            // localStorage.removeItem('user')
+
+            this.user = null
             router.push('/login')
           },
 
