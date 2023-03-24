@@ -52,10 +52,10 @@ export default {
       </div>
 
       <!-- filter -->
-      <nav class="filter">
+      <!-- <nav class="filter">
         <button @click="filters = 'all'" :class="{active:filters === 'all'}">All tasks</button>
         <button @click="filters = 'favs'" :class="{active:filters === 'favs'}">Fav tasks</button>
-      </nav>
+      </nav> -->
 
       <div class="loading" v-if="taskStore.loading">
         Loading Tasks ...
@@ -68,11 +68,11 @@ export default {
           <TaskDetail :task="task"/>
         </div>
       </div>
-      <div class="task-list" v-if="filters === 'favs'">
+      <!-- <div class="task-list" v-if="filters === 'favs'">
         <p>You have {{ taskStore.favCount }} Fav Tasks pending</p>
         <div class="list-item" v-for="task in taskStore.isFav">
           {{ task }}
           <TaskDetail :task="task"/>
         </div>
-      </div>
+      </div> -->
 </template>

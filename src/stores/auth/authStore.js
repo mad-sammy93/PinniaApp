@@ -12,7 +12,15 @@ import router from '../../router/index'
 export const useAuthStore = defineStore('authStore', { 
     id: 'auth',
     state: () => ({
+        id: 'auth',
+        
+
+        refreshTokenTimeout: null,
+        loading : false,
+        authToken: null,
+        isAuthenticated: false,
         user: null,
+        error : null
         // [
         //     {
         //         "id": 1,
@@ -24,10 +32,6 @@ export const useAuthStore = defineStore('authStore', {
         //         }
         //     }
         // ],
-
-        refreshTokenTimeout: null,
-        loading : false,
-        authToken: '',
     }),
 
     actions: {
@@ -46,29 +50,56 @@ export const useAuthStore = defineStore('authStore', {
         // },
         async login(payload) {
 
-            console.log(payload.email)
-            console.log(payload.password)
-                let result = await axios.post(
-                    'https://nextjs-dev.deploy.nl/auth/login',payload)
-                    .then(response => {
-                        this.user = JSON.stringify(response)
-                        console.log(this.user)
-                        console.table(response.headers)
-                        // this.tasks = response.data
-                        localStorage.setItem("authToken", response.data.accessToken);
+            // console.log(payload)
+            // console.log(payload.password)
+            try {
+                let response = await axios.post( 'https://nextjs-dev.deploy.nl/auth/login' ,payload)
+
+                    console.log(response)
+                    const { accessToken, user } = response.data;
+                    localStorage.setItem('authToken', accessToken);
+                    this.isAuthenticated = true;
+                    this.authToken = accessToken;
+                    this.user = {name:payload.email};
+                    // startRefreshTokenTimer()
+                    router.push('/')
+                } catch (error) {
+                    console.error('Login failed:', error);
+                    this.error = error.message || 'Somethign went wrong'
+                }
 
 
-                        // this.user.status = { loggedIn: true }
-                        // this.user.email = payload.email
-                        localStorage.setItem("user",payload.email );
-                        // router.push({name:'home'})
-                        router.push('/')
-                    })
-                    .catch(error => {
-                        console.log(error)
-                        // this.errored = true
-                    })
-                    .finally(() => this.loading = false)
+
+                    // .then(response => {
+
+                    //     const { token, user } = response.data;
+
+                    //     // console.log(this.user)
+                    //     localStorage.setItem('authToken', token);
+                    //     this.isAuthenticated = true;
+                    //     this.user = user;
+
+
+
+                    //     // this.user = JSON.stringify(response)
+                    //     // console.log(this.user)
+                    //     // console.table(response.headers)
+                    //     // this.tasks = response.data
+                    //     // localStorage.setItem("authToken", response.data.accessToken);
+
+
+                    //     // this.user.status = { loggedIn: true }
+                    //     // this.user.email = payload.email
+                    //     // localStorage.setItem("user",payload.email );
+                    //     // router.push({name:'home'})
+                    //     router.push('/')
+                    // })
+                    // .catch(error => {
+                        
+                    //     console.error('Login failed:', error);
+                    //     // this.errored = true
+                    // })
+                    // .finally(() => this.loading = false)
                 
 
                 //   if(result.status == 201) {
@@ -80,16 +111,30 @@ export const useAuthStore = defineStore('authStore', {
                 //     confirm('failed')
                 //   }
         },
-        startRefreshTokenTimer() {
-            // parse json object from base64 encoded jwt token
-            const jwtBase64 = this.user.jwtToken.split('.')[1];
-            const jwtToken = JSON.parse(atob(jwtBase64));
+        
+        // startRefreshTokenTimer() {
+        //     // parse json object from base64 encoded jwt token
+        //     const jwtBase64 = this.user.jwtToken.split('.')[1];
+        //     const jwtToken = JSON.parse(atob(jwtBase64));
     
-            // set a timeout to refresh the token a minute before it expires
-            const expires = new Date(jwtToken.exp * 1000);
-            const timeout = expires.getTime() - Date.now() - (60 * 1000);
-            this.refreshTokenTimeout = setTimeout(this.refreshToken, timeout);
-        },    
+        //     // set a timeout to refresh the token a minute before it expires
+        //     const expires = new Date(jwtToken.exp * 1000);
+        //     const timeout = expires.getTime() - Date.now() - (60 * 1000);
+        //     this.refreshTokenTimeout = setTimeout(this.authToken, timeout);
+        // },  
+        // async refreshTokens() {
+        //     try {
+        //       const response = await axios.post('https://nextjs-dev.deploy.nl/auth/refresh', null, {
+        //         withCredentials: true, // Ensure that the browser sends the HTTP-only refresh token
+        //       });
+        
+        //       // If the token refresh was successful, set the new access token value
+        //       const { token } = response.data;
+        //       localStorage.setItem('authToken', token);
+        //     } catch (error) {
+        //       console.error('Token refresh failed:', error);
+        //     }
+        // },  
         async refreshToken() {
             // const token = localStorage.getItem('authToken');
 
@@ -135,6 +180,7 @@ export const useAuthStore = defineStore('authStore', {
                 })
                 .catch(error => {
                     console.log(error)
+                    this.error = error.message || 'Somethign went wrong'
                     // this.errored = true
                 })
                 .finally(() => this.loading = false)
@@ -185,10 +231,12 @@ export const useAuthStore = defineStore('authStore', {
         logout() {
             this.authToken = '';
             localStorage.removeItem('authToken')
-            // localStorage.removeItem('user')
-
+            
+            this.accessToken = null
+            this.isAuthenticated = false
             this.user = null
             router.push('/login')
+            this.error = 'Logged Out'
           },
 
         hello(name){
@@ -196,8 +244,9 @@ export const useAuthStore = defineStore('authStore', {
             // return 'hello '+name;
         }
     },
-    getters:{
-
-    }
+    getters: {
+        isLoggedIn: (state) => state.isAuthenticated,
+        currentUser: (state) => state.user,
+    },
 
 })
