@@ -43,7 +43,7 @@ export default {
     <header>
       <img src="@/assets/logo.svg" alt="">
       <h1>Pinia Tasks</h1>
-      <!-- <button @click="authStore.refreshToken()" >refresh</button> -->
+      <button @click="authStore.refreshToken()" >refresh</button>
       <button class="logout__button" @click="handleLogout"  v-show="isLoggedIn">Logout</button>
     </header>
     <RouterView />

@@ -53,7 +53,10 @@ export const useAuthStore = defineStore('authStore', {
             // console.log(payload)
             // console.log(payload.password)
             try {
-                let response = await axios.post( 'https://nextjs-dev.deploy.nl/auth/login' ,payload)
+                let response = await axios.post( 'https://nextjs-dev.deploy.nl/auth/login' ,payload,{ 
+                    withCredentials: true,
+                    
+                })
 
                     console.log(response)
                     const { accessToken, user } = response.data;
@@ -143,7 +146,7 @@ export const useAuthStore = defineStore('authStore', {
             // };
 
             let result = await axios
-                .post('https://nextjs-dev.deploy.nl/auth/refresh',{
+                .post('https://nextjs-dev.deploy.nl/auth/refresh',null,{
                     withCredentials: true,
                   })
                 .then(response => {
@@ -246,7 +249,7 @@ export const useAuthStore = defineStore('authStore', {
     },
     getters: {
         isLoggedIn: (state) => state.isAuthenticated,
-        currentUser: (state) => state.user,
+        // currentUser: (state) => state.user,
     },
 
 })

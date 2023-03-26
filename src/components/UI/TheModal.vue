@@ -1,52 +1,54 @@
 <script>
 export default {
   name: "Modal",
-  methods: {
-    close() {
-      this.$emit("close");
+  props: {
+      show: {
+        type: Boolean,
+        required: true,
+      },
+      title: {
+        type: String,
+        required: false,
+      },
+      fixed: {
+        type: Boolean,
+        required: false,
+        default: false,
+      },
     },
-  },
-};
+    setup(){
+      const close = () => {
+        this.$emit("close");
+      }
+
+      
+      return {
+        close
+      }
+    },
+  }
 </script>
 <template>
-  <transition name="modal-fade">
-    <div class="modal-backdrop">
-      <div
-        class="modal"
-        role="dialog"
-        aria-labelledby="modalTitle"
-        aria-describedby="modalDescription"
-      >
-        <header class="modal-header" id="modalTitle">
-          <slot name="header"> This is the default title! </slot>
-          <button
-            type="button"
-            class="btn-close"
-            @click="close"
-            aria-label="Close modal"
-          >
-            x
-          </button>
-        </header>
-
-        <section class="modal-body" id="modalDescription">
-          <slot name="body"> This is the default body! </slot>
-        </section>
-
-        <footer class="modal-footer">
-          <slot name="footer"> This is the default footer! </slot>
-          <button
-            type="button"
-            class="btn-green"
-            @click="close"
-            aria-label="Close modal"
-          >
-            Close Modal
-          </button>
-        </footer>
-      </div>
-    </div>
+  <teleport to="body">
+    <div v-if="show" @click="tryClose" class="backdrop"></div>
+    <transition name="dialog">
+    <dialog open v-if="show">
+      <header>
+        <slot name="header">
+          <h2>{{ title }}</h2>
+        </slot>
+      </header>
+      <section>
+        <slot></slot>
+      </section>
+      <menu v-if="!fixed">
+        <slot name="actions">
+          <base-button @click="tryClose">Close</base-button>
+        </slot>
+      </menu>
+    </dialog>
   </transition>
+  </teleport>
 </template>
 
 <style scoped>
