@@ -6,7 +6,8 @@ export const useTaskStore = defineStore('taskStore', {
     state: () => ({
         tasks: [],
         loading : false,
-        token: ''
+        token: '',
+        error : null
     }),
     actions: {
         async getTasks (){
@@ -14,21 +15,21 @@ export const useTaskStore = defineStore('taskStore', {
             console.log(this.loading)
             // const res = await fetch('http://localhost:3000/tasks')
             // const data = await res.json()
-            const token = localStorage.getItem('authToken');
+            const token = localStorage.getItem('accessToken');
 
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
             };
 
             const res = axios
-            .get('https://nextjs-dev.deploy.nl/List',config)
+            .get('/api/List',config)
             .then(response => {
                 // console.log(response.data)
                 this.tasks = response.data
             })
             .catch(error => {
                 console.log(error)
-                this.errored = true
+                this.error = error.message || 'Somethign went wrong'
             })
             .finally(() => this.loading = false)
         },
@@ -37,14 +38,14 @@ export const useTaskStore = defineStore('taskStore', {
             // const res = await fetch('http://localhost:3000/tasks')
             // const data = await res.json()
             
-            const token = localStorage.getItem('authToken');
+            const token = localStorage.getItem('accessToken');
 
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
             };
 
             const res = axios
-            .get(`https://nextjs-dev.deploy.nl/List/${taskId}`,config)
+            .get(`/api/List/${taskId}`,config)
             .then(response => {
                 console.log(response.data);
                
@@ -53,14 +54,14 @@ export const useTaskStore = defineStore('taskStore', {
             })
             .catch(error => {
                 console.log(error)
-                this.errored = true
+                this.error = error.message || 'Somethign went wrong'
             })
             .finally(() => this.loading = false)
         },
         async addTask(task) {
-            // console.log(task)
+            console.log(task)
 
-            const token = localStorage.getItem('authToken');
+            const token = localStorage.getItem('accessToken');
 
             const config = {
                 headers: { 'content-type': 'application/json',
@@ -71,7 +72,7 @@ export const useTaskStore = defineStore('taskStore', {
             // url = 'http://localhost:3000/tasks';
 
             const result = await axios
-            .post('https://nextjs-dev.deploy.nl/List',task, config)
+            .post('/api/List',task, config)
             .then(response => {
                 console.log(response.data);
 
@@ -87,7 +88,7 @@ export const useTaskStore = defineStore('taskStore', {
             })
             .catch(error => {
                 console.log(error)
-                this.errored = true
+                this.error = error.message || 'Somethign went wrong'
             })
             .finally(() => this.loading = false)
           
@@ -105,7 +106,7 @@ export const useTaskStore = defineStore('taskStore', {
             // const subTaskData = subTask.list_items
 
 
-            const token = localStorage.getItem('authToken');
+            const token = localStorage.getItem('accessToken');
             const config = {
                 headers: { 'content-type': 'application/json',
                             Authorization: `Bearer ${token}` 
@@ -113,14 +114,14 @@ export const useTaskStore = defineStore('taskStore', {
             };
 
             const res = await axios
-                .post(`https://nextjs-dev.deploy.nl/List/${TaskId}/list-item`, newSubTask, config )
+                .post(`/api/List/${TaskId}/list-item`, newSubTask, config )
                 .then(response => {
                     console.log('response:'+JSON.stringify(response.data))
                     // this.tasks = response.data   
                 })
                 .catch(error => {
                     console.log(error)
-                    // this.errored = true
+                    this.error = error || 'Somethign went wrong'
                 })
                 .finally(() => this.loading = false)
 
@@ -131,7 +132,7 @@ export const useTaskStore = defineStore('taskStore', {
         async deleteTask(TaskId) {
             this.loading = true
 
-            const token = localStorage.getItem('authToken');
+            const token = localStorage.getItem('accessToken');
             const config = {
                 headers: { 'content-type': 'application/json',
                             Authorization: `Bearer ${token}` 
@@ -139,7 +140,7 @@ export const useTaskStore = defineStore('taskStore', {
             };
             
             const res = await axios
-                .delete('https://nextjs-dev.deploy.nl/List/'+ TaskId, config )
+                .delete('/api/List/'+ TaskId, config )
                 .then(response => {
                     console.log(response.data)
                     // this.tasks = response.data
@@ -149,7 +150,37 @@ export const useTaskStore = defineStore('taskStore', {
                 })
                 .catch(error => {
                     console.log(error)
-                    this.errored = true
+                    this.error = error.message || 'Somethign went wrong'
+                })
+                .finally(() => this.loading = false)
+        },
+        async deleteSubTask(subItem) {
+                console.log(JSON.stringify(subItem ))
+                const taskId = subItem.item.listId
+                const subTaskId = subItem.item.id
+                console.log(taskId )
+
+            // this.loading = true
+
+            const token = localStorage.getItem('accessToken');
+            const config = {
+                headers: { 'content-type': 'application/json',
+                            Authorization: `Bearer ${token}` 
+                        }
+            };
+            
+            const res = await axios
+                .delete(`/api/List/${taskId}/list-item/${subTaskId}`, config )
+                .then(response => {
+                    console.log(response.data)
+                    // this.tasks = response.data
+                    this.tasks = this.tasks.filter(t => {
+                        return t.id !== taskId
+                    })
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.error = error.message || 'Somethign went wrong'
                 })
                 .finally(() => this.loading = false)
         },

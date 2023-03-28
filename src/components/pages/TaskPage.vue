@@ -25,10 +25,10 @@ export default {
     const filters = ref('all');
 
     onMounted(() => {
-            console.warn("mount")
-            const loggedIn = localStorage.getItem('authToken')
+            // console.warn("mount")
+            const loggedIn = localStorage.getItem('accessToken')
 
-            console.warn(loggedIn)
+            // console.warn(loggedIn)
             if (!loggedIn) {
                 router.push('/login')
             }else{

@@ -10,7 +10,7 @@ export default {
     const name = ref("");
     const email = ref("");
     const password = ref("");
-    // const formIsValid = ref(true)
+    const formIsValid = ref(true)
     // const error = ref(null)
     // const respinseData = ref('')
     // const isLoading = ref(false)
@@ -38,7 +38,7 @@ export default {
   components: { MainSection },
   mounted() {
         console.warn("mount")
-        let loggedIn = localStorage.getItem('authToken')
+        let loggedIn = localStorage.getItem('accessToken')
         if(loggedIn) {
                 router.push('/')
         }

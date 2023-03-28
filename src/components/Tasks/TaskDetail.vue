@@ -60,7 +60,7 @@ import { ref } from 'vue';
         </div>
         <button @click="taskStore.loadTaskDetails(task.id)">Show details</button>
         <div  class="ind-item" v-for="item in task.list_items">
-            <TaskItem :item="item"/>
+            <TaskItem :item="item" :taskId="task.id"/>
         </div>
         <div class="subtask_form">
             <form @submit.prevent="handleSubTaskSubmit">

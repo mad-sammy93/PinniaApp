@@ -24,7 +24,7 @@ export default {
                     }]
                 })
             }
-            console.log(taskStore)
+            // console.log(taskStore)
             newTask.value = '';
         }
         return { handleSubmit, newTask , newSubTask}

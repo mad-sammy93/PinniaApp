@@ -17,10 +17,12 @@ export const useAuthStore = defineStore('authStore', {
 
         refreshTokenTimeout: null,
         loading : false,
-        authToken: null,
+        // authToken: null,
         isAuthenticated: false,
-        user: null,
-        error : null
+        // user: null,
+        error : null,
+        user: JSON.parse(localStorage.getItem('user')),
+        accessToken: JSON.parse(localStorage.getItem('token')),
         // [
         //     {
         //         "id": 1,
@@ -52,67 +54,30 @@ export const useAuthStore = defineStore('authStore', {
 
             // console.log(payload)
             // console.log(payload.password)
-            try {
-                let response = await axios.post( 'https://nextjs-dev.deploy.nl/auth/login' ,payload,{ 
+            // try {
+                let response = await axios.post( '/api/auth/login' ,payload,{ 
                     withCredentials: true,
-                    
-                })
+                }) .then(response => {
 
                     console.log(response)
+
                     const { accessToken, user } = response.data;
-                    localStorage.setItem('authToken', accessToken);
+                    this.user = response
+                    this.accessToken = accessToken
+                    localStorage.setItem('accessToken', accessToken);
+                    localStorage.setItem('user', JSON.stringify(this.user))
                     this.isAuthenticated = true;
-                    this.authToken = accessToken;
-                    this.user = {name:payload.email};
+                    // this.user = {name:payload.email};
                     // startRefreshTokenTimer()
                     router.push('/')
-                } catch (error) {
+                })
+                .catch(error => {
+                    
                     console.error('Login failed:', error);
-                    this.error = error.message || 'Somethign went wrong'
-                }
-
-
-
-                    // .then(response => {
-
-                    //     const { token, user } = response.data;
-
-                    //     // console.log(this.user)
-                    //     localStorage.setItem('authToken', token);
-                    //     this.isAuthenticated = true;
-                    //     this.user = user;
-
-
-
-                    //     // this.user = JSON.stringify(response)
-                    //     // console.log(this.user)
-                    //     // console.table(response.headers)
-                    //     // this.tasks = response.data
-                    //     // localStorage.setItem("authToken", response.data.accessToken);
-
-
-                    //     // this.user.status = { loggedIn: true }
-                    //     // this.user.email = payload.email
-                    //     // localStorage.setItem("user",payload.email );
-                    //     // router.push({name:'home'})
-                    //     router.push('/')
-                    // })
-                    // .catch(error => {
-                        
-                    //     console.error('Login failed:', error);
-                    //     // this.errored = true
-                    // })
-                    // .finally(() => this.loading = false)
-                
-
-                //   if(result.status == 201) {
-                //     alert('Login success')
-                //     // console.log(result.data.accessToken)
-                //     localStorage.setItem("authToken", JSON.stringify(result.data.accessToken));
-                //     this.$router.push({name:'home'})
-                //   } else {
-                //     confirm('failed')
-                //   }
+                    this.error = error.message || 'Something went wrong'
+                })
+                .finally(() => this.loading = false)
+              
         },
         
         // startRefreshTokenTimer() {
@@ -127,7 +92,7 @@ export const useAuthStore = defineStore('authStore', {
         // },  
         // async refreshTokens() {
         //     try {
-        //       const response = await axios.post('https://nextjs-dev.deploy.nl/auth/refresh', null, {
+        //       const response = await axios.post('/api/auth/refresh', null, {
         //         withCredentials: true, // Ensure that the browser sends the HTTP-only refresh token
         //       });
         
@@ -139,20 +104,23 @@ export const useAuthStore = defineStore('authStore', {
         //     }
         // },  
         async refreshToken() {
-            // const token = localStorage.getItem('authToken');
+            this.isAuthenticated = false;
+            // const token = localStorage.getItem('accessToken');
 
             // const config = {
             //     headers: { Authorization: `Bearer ${token}` }
             // };
 
             let result = await axios
-                .post('https://nextjs-dev.deploy.nl/auth/refresh',null,{
+                .post('/api/auth/refresh',null,{
                     withCredentials: true,
                   })
                 .then(response => {
                     console.log(response)
-                    // this.tasks = response.data
-                    localStorage.setItem("authToken", response.data.accessToken);
+                    
+                    const { accessToken } = response.data;
+                    localStorage.setItem('accessToken', accessToken);
+                    this.isAuthenticated = true;
                     // localStorage.setItem("user",payload.email );
                     // router.push({name:'home'})
                     // router.push('/')
@@ -161,18 +129,19 @@ export const useAuthStore = defineStore('authStore', {
                 })
                 .catch(error => {
                     console.log(error)
-                    // this.errored = true
+                    // this.error = true
+                    this.error = error.message || 'Somethign went wrong'
                 })
                 .finally(() => this.loading = false)
                 
         },
         async signup(payload) {
             console.log(payload.name)
-            // if(payload.email === '' || !payload.email.includes('@') || payload.password.length < 6){
-            //     this.formIsValid = false
-            // }
+            if(payload.email === '' || !payload.email.includes('@') || payload.password.length < 6){
+                this.formIsValid = false
+            }
             
-                let result = await axios.post("https://nextjs-dev.deploy.nl/auth/register", payload ,
+                let result = await axios.post("/api/auth/register", payload ,
                 )
                 .then(response => {
                     console.log(response.data)
@@ -232,8 +201,9 @@ export const useAuthStore = defineStore('authStore', {
             // }
         },
         logout() {
-            this.authToken = '';
-            localStorage.removeItem('authToken')
+            // this.authToken = '';
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('user')
             
             this.accessToken = null
             this.isAuthenticated = false
@@ -251,5 +221,6 @@ export const useAuthStore = defineStore('authStore', {
         isLoggedIn: (state) => state.isAuthenticated,
         // currentUser: (state) => state.user,
     },
+    persist: true
 
 })

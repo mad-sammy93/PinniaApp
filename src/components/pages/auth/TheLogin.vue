@@ -26,7 +26,7 @@ export default {
         
         onMounted(() => {
             console.warn("mount")
-            const loggedIn = localStorage.getItem('authToken')
+            const loggedIn = localStorage.getItem('accessToken')
 
             // console.warn(loggedIn)
             if (loggedIn) {

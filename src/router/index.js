@@ -16,6 +16,7 @@ const Register = defineAsyncComponent(() =>
 );
 
 const router = createRouter({
+    mode:history,
     history: createWebHistory(),
 
     routes: [
@@ -73,7 +74,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from, next) => {
-    const isAuthenticated = localStorage.getItem('authToken')
+    const isAuthenticated = localStorage.getItem('accessToken')
         if (to.matched.some((record) => record.meta.requiresAuth)) {
             if (!isAuthenticated) {
                 next('/register')

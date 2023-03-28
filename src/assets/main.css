@@ -37,6 +37,12 @@ header h1 {
     cursor: pointer;
     color: #bbb;
 }
+.sub-task span {
+    font-size: 1.4em;
+    margin-left: 6px;
+    cursor: pointer;
+    color: #bbb;
+}
 .task span.active {
     color: #ff005d;
 } 

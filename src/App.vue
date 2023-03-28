@@ -3,15 +3,21 @@
 import { computed,watch } from 'vue';
 import { RouterView } from 'vue-router'
 import { useAuthStore } from './stores/auth/authStore';
+import { useTaskStore } from './stores/Task/TaskStore';
 // const { user } = storeToRefs( useAuthStore )
 
 export default {
   setup() {
+    
+    const taskStore = useTaskStore();
     const authStore = useAuthStore();
     // const userState = authStore.user
       // console.log(userState)
     const handleLogout = () => {
       authStore.logout();
+    }
+    const refreshToken = () => {
+      authStore.refreshToken();
     }
     const isLoggedIn = computed(() => authStore.isAuthenticated);
     const currentUser = computed(() => authStore.currentUser);
@@ -21,15 +27,26 @@ export default {
         console.log('User is logged in.');
       } else {
         console.log('User is logged out.');
+        refreshToken();
+        console.log('token refreshed');
       }
     });
 
+    // watch(pinia.state, 
+    //   (state) => {
+    //     localStorage.setItem('state', JSON.stringify(state))
+    //   }, 
+    //   { deep: true }
+    // )
+
     return {
       // users,
+      taskStore,
       authStore,
       isLoggedIn,
       currentUser,
       // userState,
+      refreshToken,
       handleLogout
     }
   }
@@ -39,12 +56,12 @@ export default {
 
 <template>
   <main>
-    <dialog></dialog>
+    <pre>{{authStore.error}}{{ pinia}}</pre>
     <header>
       <img src="@/assets/logo.svg" alt="">
-      <h1>Pinia Tasks</h1>
+      <h1>Pinia Tasks{{ isLoggedIn }} </h1>
       <button @click="authStore.refreshToken()" >refresh</button>
-      <button class="logout__button" @click="handleLogout"  v-show="isLoggedIn">Logout</button>
+      <button class="logout__button" @click="handleLogout" v-show="isLoggedIn">Logout</button>
     </header>
     <RouterView />
   </main>
