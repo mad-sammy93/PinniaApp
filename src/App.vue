@@ -20,14 +20,14 @@ export default {
       authStore.refreshToken();
     }
     const isLoggedIn = computed(() => authStore.isAuthenticated);
-    const currentUser = computed(() => authStore.currentUser);
+    const currentUser = computed(() => authStore.user);
 
     watch(isLoggedIn, (isLoggedIn) => {
       if (isLoggedIn) {
         console.log('User is logged in.');
       } else {
         console.log('User is logged out.');
-        refreshToken();
+        // refreshToken();
         console.log('token refreshed');
       }
     });
@@ -56,11 +56,14 @@ export default {
 
 <template>
   <main>
-    <pre>{{authStore.error}}{{ pinia}}</pre>
+    <pre>{{authStore.error}}{{}}</pre>
     <header>
       <img src="@/assets/logo.svg" alt="">
       <h1>Pinia Tasks{{ isLoggedIn }} </h1>
       <button @click="authStore.refreshToken()" >refresh</button>
+
+      <button @click="authStore.startRefreshTokenTimer()" >refreshTimer</button>
+      <button @click="authStore.getState()" >get info</button>
       <button class="logout__button" @click="handleLogout" v-show="isLoggedIn">Logout</button>
     </header>
     <RouterView />

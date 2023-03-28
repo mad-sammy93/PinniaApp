@@ -12,7 +12,7 @@ export const useTaskStore = defineStore('taskStore', {
     actions: {
         async getTasks (){
             this.loading = true
-            console.log(this.loading)
+            console.log('get Task')
             // const res = await fetch('http://localhost:3000/tasks')
             // const data = await res.json()
             const token = localStorage.getItem('accessToken');
@@ -24,7 +24,7 @@ export const useTaskStore = defineStore('taskStore', {
             const res = axios
             .get('/api/List',config)
             .then(response => {
-                // console.log(response.data)
+                console.log(response.data)
                 this.tasks = response.data
             })
             .catch(error => {
@@ -92,11 +92,11 @@ export const useTaskStore = defineStore('taskStore', {
             })
             .finally(() => this.loading = false)
           
-            console.table(result);
+            // console.table(result);
 
-            if(result.error){
-                console.error(result.error)
-            }
+            // if(result.error){
+            //     console.error(result.error)
+            // }
         },
         async addSubTask(TaskId,newSubTask) {
             console.log(newSubTask);
@@ -185,20 +185,22 @@ export const useTaskStore = defineStore('taskStore', {
                 .finally(() => this.loading = false)
         },
         async toggleFav(id) {
-            const favTask = this.tasks.find(t => t.id === id)
-            favTask.isFav =!favTask.isFav
+            // const favTask = this.tasks.find(t => t.id === id)
+            // favTask.isFav =!favTask.isFav
 
-            const res = axios
-                .post('http://localhost:3000/tasks/'+ id,{isFav: favTask.isFav})
-                .then(response => {
-                    // console.log(response.data)
-                })
-                .catch(error => {
-                    console.log(error)
-                    // this.errored = true
-                })
-                .finally(() => this.loading = false)
+            // const res = axios
+            //     .post('http://localhost:3000/tasks/'+ id,{isFav: favTask.isFav})
+            //     .then(response => {
+            //         // console.log(response.data)
+            //     })
+            //     .catch(error => {
+            //         console.log(error)
+            //         // this.errored = true
+            //     })
+            //     .finally(() => this.loading = false)
 
+
+            console.log(id)
         }
     },
     getters: {

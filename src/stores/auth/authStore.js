@@ -13,16 +13,14 @@ export const useAuthStore = defineStore('authStore', {
     id: 'auth',
     state: () => ({
         id: 'auth',
-        
-
-        refreshTokenTimeout: null,
         loading : false,
-        // authToken: null,
+        accessToken: null,
         isAuthenticated: false,
         // user: null,
+        refreshTokenTimeout: null,
         error : null,
         user: JSON.parse(localStorage.getItem('user')),
-        accessToken: JSON.parse(localStorage.getItem('token')),
+        // accessToken: JSON.parse(localStorage.getItem('token')),
         // [
         //     {
         //         "id": 1,
@@ -37,33 +35,36 @@ export const useAuthStore = defineStore('authStore', {
     }),
 
     actions: {
-        // async getUsers(){
-        //     const res = axios
-        //     .get('http://localhost:3000/users')
-        //     .then(response => {
-        //         console.log(response.data)
-        //         this.users = response.data
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //         this.errored = true
-        //     })
-        //     .finally(() => this.loading = false)
-        // },
-        async login(payload) {
+        getState(){
+            console.log('refreshTokenTimeout : '+this.refreshTokenTimeout)
+            console.log('loading : '+this.loading)
+            console.log('isAuthenticated : '+this.isAuthenticated)
 
-            // console.log(payload)
-            // console.log(payload.password)
-            // try {
+            console.log('error : '+this.error)
+
+            console.log('user : '+JSON.stringify(this.user))
+
+            console.log('accessToken : '+this.accessToken)
+        },
+        setAccessToken(token) {
+            this.accessToken = token;
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        },
+        clearAccessToken() {
+            this.accessToken = null;
+            delete axios.defaults.headers.common['Authorization'];
+        },
+        async login(payload) {
                 let response = await axios.post( '/api/auth/login' ,payload,{ 
                     withCredentials: true,
                 }) .then(response => {
 
                     console.log(response)
+                    // this.startRefreshTokenTimer()        
 
                     const { accessToken, user } = response.data;
                     this.user = response
-                    this.accessToken = accessToken
+                    // this.accessToken = accessToken
                     localStorage.setItem('accessToken', accessToken);
                     localStorage.setItem('user', JSON.stringify(this.user))
                     this.isAuthenticated = true;
@@ -73,67 +74,22 @@ export const useAuthStore = defineStore('authStore', {
                 })
                 .catch(error => {
                     
-                    console.error('Login failed:', error);
+                    console.warn('Login failed:', error);
                     this.error = error.message || 'Something went wrong'
                 })
                 .finally(() => this.loading = false)
               
         },
-        
-        // startRefreshTokenTimer() {
-        //     // parse json object from base64 encoded jwt token
-        //     const jwtBase64 = this.user.jwtToken.split('.')[1];
-        //     const jwtToken = JSON.parse(atob(jwtBase64));
+        startRefreshTokenTimer() {
+            // parse json object from base64 encoded jwt token
+            const jwtBase64 = this.user.data.accessToken.split('.')[1];
+            const jwtToken = JSON.parse(atob(jwtBase64));
+            console.log(jwtToken)
     
-        //     // set a timeout to refresh the token a minute before it expires
-        //     const expires = new Date(jwtToken.exp * 1000);
-        //     const timeout = expires.getTime() - Date.now() - (60 * 1000);
-        //     this.refreshTokenTimeout = setTimeout(this.authToken, timeout);
-        // },  
-        // async refreshTokens() {
-        //     try {
-        //       const response = await axios.post('/api/auth/refresh', null, {
-        //         withCredentials: true, // Ensure that the browser sends the HTTP-only refresh token
-        //       });
-        
-        //       // If the token refresh was successful, set the new access token value
-        //       const { token } = response.data;
-        //       localStorage.setItem('authToken', token);
-        //     } catch (error) {
-        //       console.error('Token refresh failed:', error);
-        //     }
-        // },  
-        async refreshToken() {
-            this.isAuthenticated = false;
-            // const token = localStorage.getItem('accessToken');
-
-            // const config = {
-            //     headers: { Authorization: `Bearer ${token}` }
-            // };
-
-            let result = await axios
-                .post('/api/auth/refresh',null,{
-                    withCredentials: true,
-                  })
-                .then(response => {
-                    console.log(response)
-                    
-                    const { accessToken } = response.data;
-                    localStorage.setItem('accessToken', accessToken);
-                    this.isAuthenticated = true;
-                    // localStorage.setItem("user",payload.email );
-                    // router.push({name:'home'})
-                    // router.push('/')
-                    // router.go(-1) 
-                    // router.back()
-                })
-                .catch(error => {
-                    console.log(error)
-                    // this.error = true
-                    this.error = error.message || 'Somethign went wrong'
-                })
-                .finally(() => this.loading = false)
-                
+            // set a timeout to refresh the token a minute before it expires
+            const expires = new Date(jwtToken.exp * 1000);
+            const timeout = expires.getTime() - Date.now() - (60 * 1000);
+            this.refreshTokenTimeout = setTimeout(this.authToken, timeout);
         },
         async signup(payload) {
             console.log(payload.name)
@@ -158,47 +114,6 @@ export const useAuthStore = defineStore('authStore', {
                 .finally(() => this.loading = false)
 
                 console.debug(result);
-                // if(result.status == 201){
-                //     alert('Signup success');
-                //     // localStorage.setItem("user-info", JSON.stringify(result.config.data))
-                    
-                //     router.push('/login')
-
-                // }else{
-                //     alert('failed');
-                // }
-
-
-            // }catch(error:any) {
-            // //     this.error = err.message || 'Failed to authenticate. Check login data';
-            //     console.log(error.message)
-            // }
-
-
-            // if(this.email === '' || !this.email.includes('@') || this.password.length < 6){
-            //     this.formIsValid = false
-            // }
-
-            // const actionPayload = {
-            //     name: this.name,
-            //     email: this.email,
-            //     password: this.password,
-            // };
-
-            // try{
-            //     // if(this.mode === 'login'){
-            //     //     await this.$store.dispatch('login', actionPayload)
-            //     // } else {
-            //         await this.$store.dispatch('signup', {
-            //             email: this.email,
-            //             password: this.password,
-            //         });
-            //     // }
-            //     const redirectUrl = '/' + (this.$route.query.redirect || 'coaches')
-            //     this.$router.replace(redirectUrl)
-            // } catch(err) {
-            //     this.error = err.message || 'Failed to authenticate. Check login data';
-            // }
         },
         logout() {
             // this.authToken = '';
@@ -217,10 +132,78 @@ export const useAuthStore = defineStore('authStore', {
             // return 'hello '+name;
         }
     },
+    // Set up Axios interceptors in the store module
+    created() {
+        // Add a request interceptor to set the Authorization header with the access token
+        axios.interceptors.request.use((config) => {
+            // Add the Authorization header with the access token if it exists
+            if (this.accessToken) {
+                config.headers.Authorization = `Bearer ${this.accessToken}`;
+                alert('intercept');
+            }
+            return config;
+        },
+            (error) => {
+                return Promise.reject(error);
+            }
+        );
+
+        // Add a response interceptor to handle expired access tokens
+        axios.interceptors.response.use(
+            (response) => {
+                return response;
+            },
+            async (error) => {
+                if (error.response.status === 401) {
+                    if (error.response.data.message === 'Access token has expired') {
+                        // Call an action to refresh the access token and retry the original request
+                        await this.refreshToken();
+                        const retryOriginalRequest = error.config;
+                        retryOriginalRequest.headers.Authorization = `Bearer ${this.accessToken}`;
+                        return axios(retryOriginalRequest);
+                    }
+                }
+                return Promise.reject(error);
+            }
+        );
+    },
+    methods: {
+        async refreshToken() {
+            console.log('refreshing Token')
+            this.isAuthenticated = false;
+            let result = await axios
+                .post('/api/auth/refresh',null,{
+                    withCredentials: true, 
+                  })
+                .then(response => {
+                    console.log(response)
+                    console.log('token refreshed')
+
+                    const { accessToken } = response.data;
+                    localStorage.setItem('accessToken', accessToken);
+                    this.isAuthenticated = true;
+
+                    this.setAccessToken(accessToken);
+                    // localStorage.setItem("user",payload.email );
+                    // router.push({name:'home'})
+                    // router.push('/')
+                    // router.go(-1) 
+                    // router.back()
+                })
+                .catch(error => {
+                    console.log(error)
+                    // this.error = true
+                    this.error = error.message || 'Something went wrong'
+                    router.push('/login')
+                })
+                .finally(() => this.loading = false)
+                
+        },
+    },
     getters: {
         isLoggedIn: (state) => state.isAuthenticated,
         // currentUser: (state) => state.user,
     },
-    persist: true
+    // persist: true
 
 })
