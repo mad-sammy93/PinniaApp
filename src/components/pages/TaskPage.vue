@@ -23,7 +23,16 @@ export default {
     taskStore.getTasks();
 
     const filters = ref('all');
+    const isModalVisible = ref(false);
 
+    const showModal = () => {
+      console.log('show_MODAL')
+        isModalVisible.value = true;
+      }
+    const closeModal = () => {
+      console.log('close_MODAL')
+        isModalVisible.value = false;
+      }
     onMounted(() => {
             // console.warn("mount")
             const loggedIn = localStorage.getItem('accessToken')
@@ -39,7 +48,10 @@ export default {
 
     return {
       taskStore,
-      filters
+      isModalVisible,
+      filters,
+      showModal,
+      closeModal
     };
   }
 }
@@ -47,12 +59,31 @@ export default {
 
 <template>
     <!-- new task form  -->
-    <div class="new-task-form">
+    <the-modal
+      :show="isModalVisible"
+      @close="closeModal"
+    >
+
+    <template v-slot:header>
+      Add New Task
+    </template>
+
+    <template v-slot:body>
+      <div class="new-task-form">
         <TaskForm/>
       </div>
+    </template>
 
-      <!-- filter -->
-      <!-- <nav class="filter">
+    <!-- <template v-slot:footer>
+      This is a new modal footer.
+    </template> -->
+  </the-modal>
+       <!-- filter -->
+      <nav class="filter">
+        <button  
+            type="button"
+            class="btn active"
+            @click="showModal">Add task</button>
         <button @click="filters = 'all'" :class="{active:filters === 'all'}">All tasks</button>
         <button @click="filters = 'favs'" :class="{active:filters === 'favs'}">Fav tasks</button>
       </nav> -->

@@ -47,7 +47,7 @@ header h1 {
     color: #ff005d;
 } 
 .new-task-form {
-    background-color: #e7e7e7;
+    background-color: transparent;
     padding: 20px 0px;
 }
 
