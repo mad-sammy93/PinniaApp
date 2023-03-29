@@ -9,14 +9,14 @@ import TaskDetail from '../Tasks/TaskDetail.vue'
 import TaskForm from '../Tasks/TaskForm.vue';
 
 export default {
-    components: {
+  components: {
     TaskDetail,
     TaskForm
   },
-  setup(){
-    const taskStore = useTaskStore(); 
+  setup() {
+    const taskStore = useTaskStore();
     // const authStore = useAuthStore(); 
-    
+
     // initialState
 
     //fetch tasks
@@ -27,23 +27,23 @@ export default {
 
     const showModal = () => {
       console.log('show_MODAL')
-        isModalVisible.value = true;
-      }
+      isModalVisible.value = true;
+    }
     const closeModal = () => {
       console.log('close_MODAL')
-        isModalVisible.value = false;
-      }
+      isModalVisible.value = false;
+    }
     onMounted(() => {
-            console.warn("mount")
-            const loggedIn = localStorage.getItem('authToken')
+      console.warn("mount")
+      const loggedIn = localStorage.getItem('authToken')
 
-            console.warn(loggedIn)
-            if (!loggedIn) {
-                router.push('/login')
-            }else{
-              // taskStore.getTasks();
-            }
-        }) 
+      console.warn(loggedIn)
+      if (!loggedIn) {
+        router.push('/login')
+      } else {
+        // taskStore.getTasks();
+      }
+    })
 
 
     return {
@@ -58,11 +58,8 @@ export default {
 </script>
 
 <template>
-    <!-- new task form  -->
-    <the-modal
-      :show="isModalVisible"
-      @close="closeModal"
-    >
+  <!-- new task form  -->
+  <the-modal :show="isModalVisible" @close="closeModal">
 
     <template v-slot:header>
       Add New Task
@@ -70,40 +67,37 @@ export default {
 
     <template v-slot:body>
       <div class="new-task-form">
-        <TaskForm/>
+        <TaskForm />
       </div>
     </template>
 
     <!-- <template v-slot:footer>
-      This is a new modal footer.
-    </template> -->
+        This is a new modal footer.
+      </template> -->
   </the-modal>
-       <!-- filter -->
-      <nav class="filter">
-        <button  
-            type="button"
-            class="btn active"
-            @click="showModal">Add task</button>
-        <button @click="filters = 'all'" :class="{active:filters === 'all'}">All tasks</button>
-        <button @click="filters = 'favs'" :class="{active:filters === 'favs'}">Fav tasks</button>
-      </nav>
+  <!-- filter -->
+  <nav class="filter">
+    <button type="button" class="btn active" @click="showModal">Add task</button>
+    <button @click="filters = 'all'" :class="{ active: filters === 'all' }">All tasks</button>
+    <button @click="filters = 'favs'" :class="{ active: filters === 'favs' }">Fav tasks</button>
+  </nav>
 
-      <div class="loading" v-if="taskStore.loading">
-        Loading Tasks ...
-      </div>
+  <div class="loading" v-if="taskStore.loading">
+    Loading Tasks ...
+  </div>
 
-      <!-- task list  -->
-      <div class="task-list" v-if="filters === 'all'">
-        <p>You have {{ taskStore.totalCount }} tasks</p>
-        <div class="list-item" v-for="task in taskStore.tasks">
-          <TaskDetail :task="task"/>
-        </div>
-      </div>
-      <div class="task-list" v-if="filters === 'favs'">
-        <p>You have {{ taskStore.favCount }} Fav Tasks pending</p>
-        <div class="list-item" v-for="task in taskStore.isFav">
-          {{ task }}
-          <TaskDetail :task="task"/>
-        </div>
-      </div>
+  <!-- task list  -->
+  <div class="task-list" v-if="filters === 'all'">
+    <p>You have {{ taskStore.totalCount }} tasks</p>
+    <div class="list-item" v-for="task in taskStore.tasks">
+      <TaskDetail :task="task" />
+    </div>
+  </div>
+  <div class="task-list" v-if="filters === 'favs'">
+    <p>You have {{ taskStore.favCount }} Fav Tasks pending</p>
+    <div class="list-item" v-for="task in taskStore.isFav">
+      {{ task }}
+      <TaskDetail :task="task" />
+    </div>
+  </div>
 </template>
