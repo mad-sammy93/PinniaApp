@@ -1,6 +1,5 @@
 import { createPinia } from 'pinia'
-import { createApp } from 'vue'
-import { cors } from 'cors'
+import { createApp, defineAsyncComponent } from 'vue'
 import App from './App.vue'
 
 import router from './router/index.js';
@@ -8,13 +7,14 @@ import router from './router/index.js';
 
 import './assets/main.css'
 
+const TheModal = defineAsyncComponent(() => import('./components/UI/TheModal.vue'));
 
 const pinia = createPinia()
 const app = createApp(App);
 
 app.use(pinia);
 app.use(router);
-app.use(cors);
+app.component('the-modal', TheModal);
 // app.use(store);
 
 app.mount('#app');

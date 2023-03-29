@@ -3,7 +3,7 @@
 import { computed,watch } from 'vue';
 import { RouterView } from 'vue-router'
 import { useAuthStore } from './stores/auth/authStore';
-import { useTaskStore } from './stores/Task/TaskStore';
+import { ref } from 'vue';
 // const { user } = storeToRefs( useAuthStore )
 
 export default {
@@ -41,7 +41,7 @@ export default {
 
     return {
       // users,
-      taskStore,
+      isModalVisible,
       authStore,
       isLoggedIn,
       currentUser,
@@ -55,6 +55,24 @@ export default {
 </script>
 
 <template>
+  <the-modal
+      :show="isModalVisible"
+      @close="closeModal"
+    >
+    test
+
+    <template v-slot:header>
+      This is a new modal header.
+    </template>
+
+    <template v-slot:body>
+      This is a new modal body.
+    </template>
+
+    <!-- <template v-slot:footer>
+      This is a new modal footer.
+    </template> -->
+  </the-modal>
   <main>
     <pre>{{authStore.error}}{{}}</pre>
     <header>
