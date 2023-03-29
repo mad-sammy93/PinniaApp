@@ -9,7 +9,8 @@ import { ref } from 'vue';
 export default {
   setup() {
     
-    const taskStore = useTaskStore();
+    const isModalVisible = ref(false)
+    // const taskStore = useTaskStore();
     const authStore = useAuthStore();
     // const userState = authStore.user
       // console.log(userState)
@@ -27,8 +28,6 @@ export default {
         console.log('User is logged in.');
       } else {
         console.log('User is logged out.');
-        // refreshToken();
-        console.log('token refreshed');
       }
     });
 
@@ -74,7 +73,7 @@ export default {
     </template> -->
   </the-modal>
   <main>
-    <pre>{{authStore.error}}{{}}</pre>
+    <pre></pre>
     <header>
       <img src="@/assets/logo.svg" alt="">
       <h1>Pinia Tasks{{ isLoggedIn }} </h1>

@@ -30,34 +30,33 @@ export default {
 </script>
 <template>
   <teleport to="body">
-
     <div v-if="show" @click="tryClose" class="modal-backdrop"></div>
-  <transition name="modal-fade">
-    <dialog open v-if="show" class="modal">
-        <header class="modal-header">
-          <slot name="header">
-            <h2>{{ title }}</h2>
-          </slot>
-        </header>
-        <section>
-          <slot name="body">
+      <transition name="modal-fade">
+        <dialog open v-if="show" class="modal">
+            <header class="modal-header">
+              <slot name="header">
+                <h2>{{ title }}</h2>
+              </slot>
+            </header>
+            <section>
+              <slot name="body">
 
-          </slot>
-        </section>
-        <menu v-if="!fixed">
-          <slot name="actions">
-            
-            <button
-              type="button"
-              class="btn-close"
-              @click="tryClose"
-              aria-label="Close modal"
-            >Close</button>
-            <!-- <div @click="tryClose">Close</div> -->
-          </slot>
-        </menu>
-      </dialog>
-  </transition>
+              </slot>
+            </section>
+            <menu v-if="!fixed">
+              <slot name="actions">
+                
+                <button
+                  type="button"
+                  class="btn-close"
+                  @click="tryClose"
+                  aria-label="Close modal"
+                >Close</button>
+                <!-- <div @click="tryClose">Close</div> -->
+              </slot>
+            </menu>
+          </dialog>
+      </transition>
     </teleport>
 </template>
 
