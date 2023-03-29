@@ -40,13 +40,20 @@ export default {
           </slot>
         </header>
         <section>
-          <slot>
+          <slot name="body">
 
           </slot>
         </section>
         <menu v-if="!fixed">
           <slot name="actions">
-            <div @click="tryClose">Close</div>
+            
+            <button
+              type="button"
+              class="btn-close"
+              @click="tryClose"
+              aria-label="Close modal"
+            >Close</button>
+            <!-- <div @click="tryClose">Close</div> -->
           </slot>
         </menu>
       </dialog>
@@ -61,7 +68,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: #ffd859b7;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,11 +76,11 @@ export default {
 
 .modal {
   position: absolute;
-  background: #ffffff;
-  box-shadow: 2px 2px 20px 1px;
-  overflow-x: auto;
-  /* display: flex; */
-  flex-direction: column;
+  top:20vh;
+  background-color: #ffd859;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 20px;
 }
 
 .modal-header,
@@ -84,9 +91,10 @@ export default {
 
 .modal-header {
   position: relative;
-  border-bottom: 1px solid #eeeeee;
-  color: #4aae9b;
+    border-bottom: 1px solid #000;
+  color: black;
   justify-content: space-between;
+  background-color: transparent;
 }
 
 .modal-footer {
@@ -105,18 +113,15 @@ export default {
   top: 0;
   right: 0;
   border: none;
-  font-size: 20px;
-  padding: 10px;
+  font-size: 15px;
+  padding: 7px 15px;
   cursor: pointer;
   font-weight: bold;
-  color: #4aae9b;
   background: transparent;
 }
 
-.btn-green {
-  color: white;
-  background: #4aae9b;
-  border: 1px solid #4aae9b;
+.btn-close {
+  color: black;
   border-radius: 2px;
 }
 
