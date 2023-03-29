@@ -2,14 +2,10 @@
 // import { storeToRefs } from 'pinia';
 import { RouterView } from 'vue-router'
 import { useAuthStore } from './stores/auth/authStore';
-import Modal from './components/UI/TheModal.vue'
 import { ref } from 'vue';
 // const { user } = storeToRefs( useAuthStore )
 
 export default {
-  components:{ 
-    Modal 
-  },
   setup() {
     const isModalVisible = ref(false)
     const authStore = useAuthStore();
@@ -30,6 +26,7 @@ export default {
       }
     return {
       // users,
+      isModalVisible,
       authStore,
       userState,
       showModal,
@@ -42,7 +39,24 @@ export default {
 </script>
 
 <template>
-  
+  <the-modal
+      :show="isModalVisible"
+      @close="closeModal"
+    >
+    test
+
+    <template v-slot:header>
+      This is a new modal header.
+    </template>
+
+    <template v-slot:body>
+      This is a new modal body.
+    </template>
+
+    <!-- <template v-slot:footer>
+      This is a new modal footer.
+    </template> -->
+  </the-modal>
   <main>
     <button
       type="button"
@@ -52,22 +66,7 @@ export default {
       Open Modal!
     </button>
 
-  <Modal
-    v-show="isModalVisible"
-    @close="closeModal"
-  >
-    <template v-slot:header>
-      This is a new modal header.
-    </template>
-
-    <template v-slot:body>
-      This is a new modal body.
-    </template>
-
-    <template v-slot:footer>
-      This is a new modal footer.
-    </template>
-  </Modal>
+    
     <header>
       <img src="@/assets/logo.svg" alt="">
       <h1>Pinia Tasks{{ isModalVisible }}</h1>

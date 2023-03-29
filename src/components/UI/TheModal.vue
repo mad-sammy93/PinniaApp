@@ -1,52 +1,57 @@
 <script>
 export default {
   name: "Modal",
+  props: {
+    show: {
+      type: Boolean,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: false,
+    },
+    fixed: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  emits: ['close'],
   methods: {
-    close() {
-      this.$emit("close");
+    tryClose() {
+      console.log('tryClose')
+      if (this.fixed) {
+        return;
+      }
+      this.$emit('close');
     },
   },
 };
 </script>
 <template>
+  <teleport to="body">
+
+    <div v-if="show" @click="tryClose" class="modal-backdrop"></div>
   <transition name="modal-fade">
-    <div class="modal-backdrop">
-      <div
-        class="modal"
-        role="dialog"
-        aria-labelledby="modalTitle"
-        aria-describedby="modalDescription"
-      >
-        <header class="modal-header" id="modalTitle">
-          <slot name="header"> This is the default title! </slot>
-          <button
-            type="button"
-            class="btn-close"
-            @click="close"
-            aria-label="Close modal"
-          >
-            x
-          </button>
+    <dialog open v-if="show" class="modal">
+        <header class="modal-header">
+          <slot name="header">
+            <h2>{{ title }}</h2>
+          </slot>
         </header>
+        <section>
+          <slot>
 
-        <section class="modal-body" id="modalDescription">
-          <slot name="body"> This is the default body! </slot>
+          </slot>
         </section>
-
-        <footer class="modal-footer">
-          <slot name="footer"> This is the default footer! </slot>
-          <button
-            type="button"
-            class="btn-green"
-            @click="close"
-            aria-label="Close modal"
-          >
-            Close Modal
-          </button>
-        </footer>
-      </div>
-    </div>
+        <menu v-if="!fixed">
+          <slot name="actions">
+            <div @click="tryClose">Close</div>
+          </slot>
+        </menu>
+      </dialog>
   </transition>
+    </teleport>
 </template>
 
 <style scoped>
@@ -63,10 +68,11 @@ export default {
 }
 
 .modal {
+  position: absolute;
   background: #ffffff;
   box-shadow: 2px 2px 20px 1px;
   overflow-x: auto;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
 }
 
