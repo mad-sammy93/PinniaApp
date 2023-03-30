@@ -10,10 +10,8 @@ export default {
   setup() {
     
     const isModalVisible = ref(false)
-    // const taskStore = useTaskStore();
+    
     const authStore = useAuthStore();
-    // const userState = authStore.user
-      // console.log(userState)
     const handleLogout = () => {
       authStore.logout();
     }
@@ -21,7 +19,7 @@ export default {
       authStore.refreshToken();
     }
     const isLoggedIn = computed(() => authStore.isAuthenticated);
-    const currentUser = computed(() => authStore.user);
+    // const currentUser = computed(() => authStore.user);
 
     watch(isLoggedIn, (isLoggedIn) => {
       if (isLoggedIn) {
@@ -31,19 +29,12 @@ export default {
       }
     });
 
-    // watch(pinia.state, 
-    //   (state) => {
-    //     localStorage.setItem('state', JSON.stringify(state))
-    //   }, 
-    //   { deep: true }
-    // )
-
     return {
       // users,
       isModalVisible,
       authStore,
       isLoggedIn,
-      currentUser,
+      // currentUser,
       // userState,
       refreshToken,
       handleLogout
@@ -73,16 +64,19 @@ export default {
     </template> -->
   </the-modal>
   <main>
-    <pre></pre>
+    <!-- <pre></pre> -->
     <header>
       <img src="@/assets/logo.svg" alt="">
-      <h1>Pinia Tasks{{ isLoggedIn }} </h1>
-      <button @click="authStore.refreshToken()" >refresh</button>
+      <h1>Pinia Tasks</h1>
+      <!-- <button @click="authStore.hello('refresh')" >refresh</button>
 
-      <button @click="authStore.startRefreshTokenTimer()" >refreshTimer</button>
-      <button @click="authStore.getState()" >get info</button>
-      <button class="logout__button" @click="handleLogout" v-show="isLoggedIn">Logout</button>
+      <button @click="authStore.startRefreshTokenTimer()" >refreshTimer</button> -->
+      <base-button @click="authStore.getState()" >get info</base-button>
     </header>
+    <status-bar v-if="isLoggedIn">Hello {{ authStore.user.name }}
+      <base-button class="logout__button" @click="handleLogout" v-show="isLoggedIn">Logout</base-button>
+    </status-bar>
+    
     <RouterView />
   </main>
 </template>

@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // Async Components
 const TaskPage = defineAsyncComponent(() =>
-  import('../components/pages/TaskPage.vue')
+  import('../components/Tasks/TaskPage.vue')
 );
 const DocsDetail = defineAsyncComponent(() =>
   import('../components/pages/Docs/DocsDetail.vue')

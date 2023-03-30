@@ -17,12 +17,12 @@ export const useTaskStore = defineStore('taskStore', {
             // const data = await res.json()
             const token = localStorage.getItem('accessToken');
 
-            const config = {
-                headers: { Authorization: `Bearer ${token}` }
-            };
+            // const config = {
+            //     headers: { Authorization: `Bearer ${token}` }
+            // };
 
             const res = axios
-            .get('/api/List',config)
+            .get('/List')
             .then(response => {
                 console.log(response.data)
                 this.tasks = response.data
@@ -40,12 +40,12 @@ export const useTaskStore = defineStore('taskStore', {
             
             const token = localStorage.getItem('accessToken');
 
-            const config = {
-                headers: { Authorization: `Bearer ${token}` }
-            };
+            // const config = {
+            //     headers: { Authorization: `Bearer ${token}` }
+            // };
 
             const res = axios
-            .get(`/api/List/${taskId}`,config)
+            .get(`/List/${taskId}`)
             .then(response => {
                 console.log(response.data);
                
@@ -63,16 +63,16 @@ export const useTaskStore = defineStore('taskStore', {
 
             const token = localStorage.getItem('accessToken');
 
-            const config = {
-                headers: { 'content-type': 'application/json',
-                            Authorization: `Bearer ${token}` 
-                        }
-            };
+            // const config = {
+            //     headers: { 'content-type': 'application/json',
+            //                 Authorization: `Bearer ${token}` 
+            //             }
+            // };
             // console.table(task);
             // url = 'http://localhost:3000/tasks';
 
             const result = await axios
-            .post('/api/List',task, config)
+            .post('/List',task)
             .then(response => {
                 console.log(response.data);
 
@@ -107,14 +107,14 @@ export const useTaskStore = defineStore('taskStore', {
 
 
             const token = localStorage.getItem('accessToken');
-            const config = {
-                headers: { 'content-type': 'application/json',
-                            Authorization: `Bearer ${token}` 
-                        }
-            };
+            // const config = {
+            //     headers: { 'content-type': 'application/json',
+            //                 Authorization: `Bearer ${token}` 
+            //             }
+            // };
 
             const res = await axios
-                .post(`/api/List/${TaskId}/list-item`, newSubTask, config )
+                .post(`/List/${TaskId}/list-item`, newSubTask )
                 .then(response => {
                     console.log('response:'+JSON.stringify(response.data))
                     // this.tasks = response.data   
@@ -133,14 +133,14 @@ export const useTaskStore = defineStore('taskStore', {
             this.loading = true
 
             const token = localStorage.getItem('accessToken');
-            const config = {
-                headers: { 'content-type': 'application/json',
-                            Authorization: `Bearer ${token}` 
-                        }
-            };
+            // const config = {
+            //     headers: { 'content-type': 'application/json',
+            //                 Authorization: `Bearer ${token}` 
+            //             }
+            // };
             
             const res = await axios
-                .delete('/api/List/'+ TaskId, config )
+                .delete('/List/'+ TaskId )
                 .then(response => {
                     console.log(response.data)
                     // this.tasks = response.data
@@ -163,14 +163,14 @@ export const useTaskStore = defineStore('taskStore', {
             // this.loading = true
 
             const token = localStorage.getItem('accessToken');
-            const config = {
-                headers: { 'content-type': 'application/json',
-                            Authorization: `Bearer ${token}` 
-                        }
-            };
+            // const config = {
+            //     headers: { 'content-type': 'application/json',
+            //                 Authorization: `Bearer ${token}` 
+            //             }
+            // };
             
             const res = await axios
-                .delete(`/api/List/${taskId}/list-item/${subTaskId}`, config )
+                .delete(`/List/${taskId}/list-item/${subTaskId}` )
                 .then(response => {
                     console.log(response.data)
                     // this.tasks = response.data

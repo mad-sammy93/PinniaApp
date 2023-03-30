@@ -1,11 +1,11 @@
-import authStore from './auth/authStore'
-import taskStore from './Task/TaskStore'
+// import authStore from './auth/authStore'
+// import taskStore from './Task/TaskStore'
 
-const store = createStore({
-    modules:{
-        taskStore,        
-        authStore
-    },
-});
+// const store = createStore({
+//     modules:{
+//         taskStore,        
+//         authStore
+//     },
+// });
 
-export default store
+// export default store

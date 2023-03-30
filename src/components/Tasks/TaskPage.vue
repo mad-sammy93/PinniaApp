@@ -5,8 +5,8 @@ import { useTaskStore } from '../../stores/Task/TaskStore';
 
 import router from '../../router'
 
-import TaskDetail from '../Tasks/TaskDetail.vue'
-import TaskForm from '../Tasks/TaskForm.vue';
+import TaskDetail from './TaskDetail.vue'
+import TaskForm from './TaskForm.vue';
 
 export default {
   components: {
@@ -20,7 +20,6 @@ export default {
     // initialState
 
     //fetch tasks
-    taskStore.getTasks();
 
     const filters = ref('all');
     const isModalVisible = ref(false);
@@ -41,6 +40,8 @@ export default {
             if (!loggedIn) {
                 router.push('/login')
             }else{
+
+    taskStore.getTasks();
               // taskStore.getTasks();
             }
         }) 
@@ -93,11 +94,11 @@ export default {
           <TaskDetail :task="task"/>
         </div>
       </div>
-      <!-- <div class="task-list" v-if="filters === 'favs'">
+      <div class="task-list" v-if="filters === 'favs'">
         <p>You have {{ taskStore.favCount }} Fav Tasks pending</p>
         <div class="list-item" v-for="task in taskStore.isFav">
           {{ task }}
           <TaskDetail :task="task"/>
         </div>
-      </div> -->
+      </div>
 </template>
