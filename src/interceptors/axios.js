@@ -15,10 +15,12 @@ axios.interceptors.response.use(resp => resp, async error=> {
                     withCredentials: true, 
                   });
                   console.log(data)
+
         if(status === 200 || status === 201){
             alert('intercept');
             axios.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
 
+            localStorage.setItem(data.accessToken);
             return axios(error.config)
         }
     }

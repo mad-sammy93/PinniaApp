@@ -1,7 +1,8 @@
 <script>
 export default {
-  name: "TaskView",
+  name: "TaskModal",
   props: {
+    // id,
     show: {
       type: Boolean,
       required: true,
@@ -14,7 +15,7 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    },
+    }
   },
   emits: ['close'],
   methods: {
@@ -35,11 +36,11 @@ export default {
         <dialog open v-if="show" class="modal">
             <header class="modal-header">
               <slot name="header">
-                <h2>{{ title }}</h2>
+                <h2>{{ task }}</h2>
               </slot>
             </header>
             <section>
-              <slot name="body">
+              <slot name="subTask">
 
               </slot>
             </section>
@@ -67,7 +68,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #ffd859b7;
+  background-color: #ffd85998;
   display: flex;
   justify-content: center;
   align-items: center;

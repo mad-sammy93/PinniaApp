@@ -64,7 +64,7 @@ export const useAuthStore = defineStore('authStore', {
                     const { accessToken } = response.data;
 
                     axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
-                    console.log(axios.defaults.headers.common['Authorization'])
+                    // console.log(axios.defaults.headers.common['Authorization'])
                     // this.user = response
                     this.accessToken = accessToken
                     localStorage.setItem('accessToken', accessToken);
@@ -99,19 +99,19 @@ export const useAuthStore = defineStore('authStore', {
             // parse json object from base64 encoded jwt token
             const jwtBase64 = this.accessToken.split('.')[1];
             const jwtToken = JSON.parse(atob(jwtBase64));
-            console.log(jwtToken)
+            // console.log(jwtToken)
     
             // set a timeout to refresh the token a minute before it expires
             const expires = new Date(jwtToken.exp * 1000);
             const timeout = expires.getTime() - Date.now() - (60 * 1000);
             this.refreshTokenTimeout = setTimeout(this.authToken, timeout);
 
-            console.log(this.refreshTokenTimeout)
+            // console.log(this.refreshTokenTimeout)
             this.user = jwtToken
             localStorage.setItem('user', JSON.stringify(jwtToken));
         },
         async signup(payload) {
-            console.log(payload.name)
+            // console.log(payload.name)
             if(payload.email === '' || !payload.email.includes('@') || payload.password.length < 6){
                 this.formIsValid = false
             }
@@ -119,7 +119,7 @@ export const useAuthStore = defineStore('authStore', {
                 let result = await axios.post("/auth/register", payload ,
                 )
                 .then(response => {
-                    console.log(response.data)
+                    // console.log(response.data)
                     // this.tasks = response.data
 
 

@@ -71,7 +71,7 @@ export default {
       <!-- <button @click="authStore.hello('refresh')" >refresh</button>
 
       <button @click="authStore.startRefreshTokenTimer()" >refreshTimer</button> -->
-      <base-button @click="authStore.getState()" >get info</base-button>
+      <!-- <base-button @click="authStore.getState()" >get info</base-button> -->
     </header>
     <status-bar v-if="isLoggedIn">Hello {{ authStore.user.name }}
       <base-button class="logout__button" @click="handleLogout" v-show="isLoggedIn">Logout</base-button>

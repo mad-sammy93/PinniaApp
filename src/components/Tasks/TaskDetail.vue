@@ -1,6 +1,8 @@
 <script>
 import { useTaskStore } from '@/stores/Task/TaskStore';
 import TaskItem from '@/components/Tasks/TaskItem.vue'
+
+import TaskModal from '@/components/Tasks/TaskModal.vue'
 // import TaskForm from '../components/TaskForm.vue';
 import { ref } from 'vue';
 
@@ -8,11 +10,13 @@ import { ref } from 'vue';
         props: ['task'],
         components: {
             TaskItem,
+            TaskModal
         },
         setup() {
 
             const newSubTask = ref('')
             const taskStore = useTaskStore()
+            const displayTask = ref('')
 
             // const handleSubTaskSubmit = () => {
             //     if(newSubTask.value.length >0) {
@@ -28,10 +32,21 @@ import { ref } from 'vue';
             // // console.log(newSubTask.value)
             // newSubTask.value = '';
             // }
+            const showTaskDetail = () =>{
+                displayTask.value = true
+                console.log(displayTask.value)
+                // return displayTask
+            }
+
+            const closeTaskModal = () => {
+                displayTask.value = false
+            }
            
             return {  
                 newSubTask ,
                 taskStore,
+                displayTask,
+                showTaskDetail
                 // handleSubTaskSubmit
             }
                 
@@ -42,23 +57,33 @@ import { ref } from 'vue';
 </script>
 
 <template>
+    <task-modal  :show="false"  @close="closeTaskModal">
+        <template v-slot:header :title="test">
+        </template>
+        <template v-slot:subTask>
+            This is a new modal body.
+        </template>
+    </task-modal>
     <div class="task_wrapper">
         <div class="task">
-            <span>{{ task.id }}</span>
+            <!-- <span>{{ task.id }}</span> -->
             <h3>{{ task.name }}</h3>
             <div class="icons">
                 <span 
                     class="material-icons"
+                    @click="showTaskdDetail()"
+                >visibility</span>
+                <span 
+                    class="material-icons"
                     @click="taskStore.deleteTask(task.id)"
                 >delete</span>
-                <!-- <span 
+                <span 
                     class="material-icons"
                     :class= "{active: task.isFav}"
                     @click="taskStore.toggleFav(task.id)"
-                >favorite</span> -->
+                >favorite</span>
             </div>
         </div>
-        <button @click="taskStore.loadTaskDetails(task.id)">Show details</button>
         <div  class="ind-item" v-for="item in task.list_items">
             <TaskItem :item="item" :taskId="task.id"/>
         </div>
