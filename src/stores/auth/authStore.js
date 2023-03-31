@@ -72,6 +72,8 @@ export const useAuthStore = defineStore('authStore', {
                     this.isAuthenticated = true;
                     // this.user = {name:payload.email};
                     // startRefreshTokenTimer()
+                    
+                    //Getting info from auth token since we dont have a user endpoint
                     this.getUserInfo()
                     router.push('/')
                 })
