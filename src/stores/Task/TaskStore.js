@@ -45,13 +45,13 @@ export const useTaskStore = defineStore('taskStore', {
                 console.log(response.data);
 
                 const newTask = this.tasks.find(t => t.id === task.id);
-                newTask = response.data;         
+                // newTask = response.data;         
 
-                // console.log(newTask)
+                console.log(newTask)
                 newTask.push(response.data);
-                this.tasks = this.tasks.filter(t => {
-                    return t.id !== id
-                })
+                // this.tasks = this.tasks.filter(t => {
+                //     return t.id !== task.id
+                // })
                 // console.log(this.tasks) 
             })
             .catch(error => {
@@ -112,9 +112,9 @@ export const useTaskStore = defineStore('taskStore', {
         async addSubTask(TaskId,newSubTask) {
             // console.log(newSubTask);
             this.loading = true
-            const subTask = this.tasks.find(t => t.id === id)
-            subTask.list_items.push(newSubTask)
-            const subTaskData = subTask.list_items
+            // const subTask = this.tasks.find(t => t.id === TaskId)
+            // subTask.list_items.push(newSubTask)
+            // const subTaskData = subTask.list_items
 
 
             // const token = localStorage.getItem('accessToken');
@@ -124,8 +124,8 @@ export const useTaskStore = defineStore('taskStore', {
                 .then(response => {
                     console.log('response:'+JSON.stringify(response.data))
                     // this.tasks = response.data   
-                    // const subTask = this.tasks.find(t => t.id === id)
-                    // subTask.list_items.push(newSubTask)
+                    const subTask = this.tasks.find(t => t.id === TaskId)
+                    subTask.list_items.push(newSubTask)
                     // const subTaskData = subTask.list_items
                 })
                 .catch(error => {

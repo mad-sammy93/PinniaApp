@@ -85,7 +85,7 @@ import { reactive, ref } from 'vue';
                                 name:newSubTask
                             });
                             newSubTask = '';
-                            taskStore.getTasks();
+                            // taskStore.getTasks();
                         }" >
                         <span  class="material-icons" >add</span>
                     </button>

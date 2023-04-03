@@ -54,7 +54,7 @@ form{
     max-width: 400px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 1fr;
     gap: 10px;
 }
 form button {
