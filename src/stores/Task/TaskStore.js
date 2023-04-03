@@ -34,12 +34,12 @@ export const useTaskStore = defineStore('taskStore', {
             // const res = await fetch('http://localhost:3000/tasks')
             // const data = await res.json()
             
-            const token = localStorage.getItem('accessToken');
+            // const token = localStorage.getItem('accessToken');
 
             const res = axios
             .get(`/List/${taskId}`)
             .then(response => {
-                // console.log(response.data);
+                console.log(response.data);
                
                 const subTask = this.tasks.find(t => t.id === taskId);
                 subTask.list_items = response.data.list_items;         
@@ -53,17 +53,17 @@ export const useTaskStore = defineStore('taskStore', {
         async addTask(task) {
             // console.log(task)
 
-            const token = localStorage.getItem('accessToken');
+            // const token = localStorage.getItem('accessToken');
 
-            // console.table(task);
+            console.table(task);
             // url = 'http://localhost:3000/tasks';
 
             const result = await axios
             .post('/List',task)
             .then(response => {
-                // console.log(response.data);
+                console.log(response.data);
 
-                const newTask = this.tasks.find(t => t.id === task.id);
+                // const newTask = this.tasks.find(t => t.id === task.id);
                 // newTask = response.data;         
 
                 // console.log(newTask)
@@ -93,13 +93,16 @@ export const useTaskStore = defineStore('taskStore', {
             // const subTaskData = subTask.list_items
 
 
-            const token = localStorage.getItem('accessToken');
+            // const token = localStorage.getItem('accessToken');
 
             const res = await axios
                 .post(`/List/${TaskId}/list-item`, newSubTask )
                 .then(response => {
                     // console.log('response:'+JSON.stringify(response.data))
                     // this.tasks = response.data   
+                    const subTask = this.tasks.find(t => t.id === id)
+                    subTask.list_items.push(newSubTask)
+                    const subTaskData = subTask.list_items
                 })
                 .catch(error => {
                     console.log(error)

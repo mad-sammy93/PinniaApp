@@ -8,16 +8,13 @@ import { ref } from 'vue';
 
 export default {
   setup() {
-    
-    const isModalVisible = ref(false)
-    
     const authStore = useAuthStore();
     const handleLogout = () => {
       authStore.logout();
     }
-    const refreshToken = () => {
-      authStore.refreshToken();
-    }
+    // const refreshToken = () => {
+    //   authStore.refreshToken();
+    // }
     const isLoggedIn = computed(() => authStore.isAuthenticated);
     // const currentUser = computed(() => authStore.user);
 
@@ -31,12 +28,12 @@ export default {
 
     return {
       // users,
-      isModalVisible,
+      // isModalVisible,
       authStore,
       isLoggedIn,
       // currentUser,
       // userState,
-      refreshToken,
+      // refreshToken,
       handleLogout
     }
   }
@@ -45,26 +42,7 @@ export default {
 </script>
 
 <template>
-  <the-modal
-      :show="isModalVisible"
-      @close="closeModal"
-    >
-    test
-
-    <template v-slot:header>
-      This is a new modal header.
-    </template>
-
-    <template v-slot:body>
-      This is a new modal body.
-    </template>
-
-    <!-- <template v-slot:footer>
-      This is a new modal footer.
-    </template> -->
-  </the-modal>
   <main>
-    <!-- <pre></pre> -->
     <header>
       <img src="@/assets/logo.svg" alt="">
       <h1>Pinia Tasks</h1>

@@ -36,6 +36,7 @@ header h1 {
     margin-left: 6px;
     cursor: pointer;
     color: #bbb;
+    transition: 400ms color;
 }
 .sub-task span {
     font-size: 1.4em;
@@ -91,6 +92,15 @@ header h1 {
 .task .icons{
     text-align: right;
 }
+.task .icons span.view:hover{
+    color: #42e0a3;
+}
+.task .icons span.delete:hover{
+    color: #2c2c2c;
+}
+.task .icons span.fav:hover{
+    color: #ff005d;
+}
 
 .loading {
     max-width: 640px;
@@ -106,8 +116,7 @@ header h1 {
     padding: 6px 20px;
 }
 .task_wrapper {
-
-    padding: 0px 20px 20px;
+    padding: 5px 20px 5px;
     margin-top: 20px;
     border-radius: 4px;
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);

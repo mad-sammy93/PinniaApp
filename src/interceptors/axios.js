@@ -20,7 +20,7 @@ axios.interceptors.response.use(resp => resp, async error=> {
             alert('intercept');
             axios.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
 
-            localStorage.setItem(data.accessToken);
+            localStorage.setItem('accessToken',data.accessToken);
             return axios(error.config)
         }
     }

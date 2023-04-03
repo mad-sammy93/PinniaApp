@@ -39,11 +39,11 @@ export default {
             placeholder="Add title ..."
             v-model="newTask"
             >
-            <!-- <input 
+            <input 
             type="text"
             placeholder="I need to..."
             v-model="newSubTask"
-            > -->
+            >
             <button type="submit">Add</button>
     </form>
 </template>

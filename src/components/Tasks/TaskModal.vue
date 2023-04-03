@@ -20,7 +20,7 @@ export default {
   emits: ['close'],
   methods: {
     tryClose() {
-      console.log('tryClose')
+      console.log('tryCloseSUB')
       if (this.fixed) {
         return;
       }
@@ -68,19 +68,26 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #ffd85998;
+  background-color: rgba(0, 0, 0, 0.363);;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .modal {
-  position: absolute;
+  /* position: absolute; */
+    position: fixed;
   top:20vh;
-  background-color: #ffd859;
+  /* background-color: #ffd859;
   padding: 20px;
   margin-top: 20px;
-  border-radius: 20px;
+  border-radius: 20px; */
+
+  padding: 0px 20px 20px;
+    margin-top: 20px;
+    border-radius: 4px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
+    background: #fff;
 }
 
 .modal-header,
