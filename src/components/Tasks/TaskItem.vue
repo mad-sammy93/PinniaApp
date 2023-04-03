@@ -13,8 +13,8 @@
 
 <template>
     <div class="task-item sub-task">
-        {{ taskId }}
-        {{ item.id }}
+        <!-- {{ taskId }}
+        {{ item.id }} -->
         {{ item.name }}
         <span 
             class="material-icons"

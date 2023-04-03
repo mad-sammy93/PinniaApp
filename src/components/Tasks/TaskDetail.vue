@@ -37,7 +37,7 @@ import { reactive, ref } from 'vue';
                 taskStore.loadTaskDetails(task.id)
                 displayTaskModal.value = true
                 // data = task
-                console.log(data)
+                // console.log(data)
                 // return displayTask
             }
 
@@ -61,7 +61,7 @@ import { reactive, ref } from 'vue';
 </script>
 
 <template>
-    <task-modal  :show="displayTaskModal"  @close="closeTaskModal" :data="task">
+    <task-modal  :show="displayTaskModal"  @close="closeTaskModal" >
         <template v-slot:header :title="test">
             {{ task.name }}
         </template>
@@ -121,9 +121,9 @@ import { reactive, ref } from 'vue';
                 >favorite</span>
             </div>
         </div>
-        <div  class="ind-item" v-for="item in task.list_items">
+        <!-- <div  class="ind-item" v-for="item in task.list_items">
             <TaskItem :item="item" :taskId="task.id"/>
-        </div>
+        </div> -->
         
     </div>
 </template>

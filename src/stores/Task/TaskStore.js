@@ -6,7 +6,7 @@ export const useTaskStore = defineStore('taskStore', {
     state: () => ({
         tasks: [],
         loading : false,
-        token: '',
+        // token: '',
         error : null
     }),
     actions: {
@@ -15,7 +15,7 @@ export const useTaskStore = defineStore('taskStore', {
             // console.log('get Task')
             // const res = await fetch('http://localhost:3000/tasks')
             // const data = await res.json()
-            const token = localStorage.getItem('accessToken');
+            // const token = localStorage.getItem('accessToken');
 
             const res = axios
             .get('/List')
@@ -28,6 +28,63 @@ export const useTaskStore = defineStore('taskStore', {
                 this.error = error.message || 'Something went wrong'
             })
             .finally(() => this.loading = false)
+        },
+
+        //Main tasks
+        async addTask(task) {
+            // console.log(task)
+
+            // const token = localStorage.getItem('accessToken');
+
+            console.table(task);
+            // url = 'http://localhost:3000/tasks';
+
+            const result = await axios
+            .post('/List',task)
+            .then(response => {
+                console.log(response.data);
+
+                const newTask = this.tasks.find(t => t.id === task.id);
+                newTask = response.data;         
+
+                // console.log(newTask)
+                newTask.push(response.data);
+                this.tasks = this.tasks.filter(t => {
+                    return t.id !== id
+                })
+                // console.log(this.tasks) 
+            })
+            .catch(error => {
+                console.log(error)
+                this.error = error.message || 'Something went wrong'
+            })
+            .finally(() => this.loading = false)
+          
+            // console.table(result);
+
+            // if(result.error){
+            //     console.error(result.error)
+            // }
+        },
+        async deleteTask(TaskId) {
+            this.loading = true
+
+            // const token = localStorage.getItem('accessToken');
+            
+            const res = await axios
+                .delete('/List/'+ TaskId )
+                .then(response => {
+                    // console.log(response.data)
+                    // this.tasks = response.data
+                    this.tasks = this.tasks.filter(t => {
+                        return t.id !== TaskId
+                    })
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.error = error.message || 'Something went wrong'
+                })
+                .finally(() => this.loading = false)
         },
         async loadTaskDetails (taskId){
             this.loading = true
@@ -50,47 +107,14 @@ export const useTaskStore = defineStore('taskStore', {
             })
             .finally(() => this.loading = false)
         },
-        async addTask(task) {
-            // console.log(task)
 
-            // const token = localStorage.getItem('accessToken');
-
-            console.table(task);
-            // url = 'http://localhost:3000/tasks';
-
-            const result = await axios
-            .post('/List',task)
-            .then(response => {
-                console.log(response.data);
-
-                // const newTask = this.tasks.find(t => t.id === task.id);
-                // newTask = response.data;         
-
-                // console.log(newTask)
-                // newTask.push(response.data);
-                // this.tasks = this.tasks.filter(t => {
-                //     return t.id !== id
-                // })
-                // console.log(this.tasks) 
-            })
-            .catch(error => {
-                console.log(error)
-                this.error = error.message || 'Something went wrong'
-            })
-            .finally(() => this.loading = false)
-          
-            // console.table(result);
-
-            // if(result.error){
-            //     console.error(result.error)
-            // }
-        },
+        // Subtasks
         async addSubTask(TaskId,newSubTask) {
             // console.log(newSubTask);
             this.loading = true
-            // const subTask = this.tasks.find(t => t.id === id)
-            // subTask.list_items.push(newSubTask)
-            // const subTaskData = subTask.list_items
+            const subTask = this.tasks.find(t => t.id === id)
+            subTask.list_items.push(newSubTask)
+            const subTaskData = subTask.list_items
 
 
             // const token = localStorage.getItem('accessToken');
@@ -98,11 +122,11 @@ export const useTaskStore = defineStore('taskStore', {
             const res = await axios
                 .post(`/List/${TaskId}/list-item`, newSubTask )
                 .then(response => {
-                    // console.log('response:'+JSON.stringify(response.data))
+                    console.log('response:'+JSON.stringify(response.data))
                     // this.tasks = response.data   
-                    const subTask = this.tasks.find(t => t.id === id)
-                    subTask.list_items.push(newSubTask)
-                    const subTaskData = subTask.list_items
+                    // const subTask = this.tasks.find(t => t.id === id)
+                    // subTask.list_items.push(newSubTask)
+                    // const subTaskData = subTask.list_items
                 })
                 .catch(error => {
                     console.log(error)
@@ -114,26 +138,6 @@ export const useTaskStore = defineStore('taskStore', {
                 //     console.error(res.error)
                 // }
         },
-        async deleteTask(TaskId) {
-            this.loading = true
-
-            const token = localStorage.getItem('accessToken');
-            
-            const res = await axios
-                .delete('/List/'+ TaskId )
-                .then(response => {
-                    // console.log(response.data)
-                    // this.tasks = response.data
-                    this.tasks = this.tasks.filter(t => {
-                        return t.id !== TaskId
-                    })
-                })
-                .catch(error => {
-                    console.log(error)
-                    this.error = error.message || 'Something went wrong'
-                })
-                .finally(() => this.loading = false)
-        },
         async deleteSubTask(subItem) {
                 // console.log(JSON.stringify(subItem ))
                 const taskId = subItem.item.listId
@@ -142,7 +146,7 @@ export const useTaskStore = defineStore('taskStore', {
 
             // this.loading = true
 
-            const token = localStorage.getItem('accessToken');
+            // const token = localStorage.getItem('accessToken');
             
             const res = await axios
                 .delete(`/List/${taskId}/list-item/${subTaskId}` )
