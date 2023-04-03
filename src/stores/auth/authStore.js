@@ -16,7 +16,8 @@ export const useAuthStore = defineStore('authStore', {
         loading : false,
         accessToken: null,
         isAuthenticated: false,
-        // user: null,
+        activationLink: null,
+        activationCode: null,
         refreshTokenTimeout: null,
         error : null,
         user: null,
@@ -72,7 +73,7 @@ export const useAuthStore = defineStore('authStore', {
                     this.isAuthenticated = true;
                     // this.user = {name:payload.email};
                     // startRefreshTokenTimer()
-                    
+
                     //Getting info from auth token since we dont have a user endpoint
                     this.getUserInfo()
                     router.push('/')
@@ -124,8 +125,9 @@ export const useAuthStore = defineStore('authStore', {
                     // console.log(response.data)
                     // this.tasks = response.data
 
-
-                    // user.sendEmailVerification(actionCodeSettings);
+                    //activation link from server
+                    this.activationLink = 'https://example.com/activate?id=12345'
+                    this.sendEmailVerification(activationLink);
                 })
                 .catch(error => {
                     console.log(error)
@@ -137,10 +139,14 @@ export const useAuthStore = defineStore('authStore', {
                 result
                 console.debug(result);
         },
+        sendEmailVerification(){
+            console.log()
+        },
         logout() {
             localStorage.removeItem('accessToken')
             localStorage.removeItem('user')
-
+            localStorage.removeItem('taskStore')
+            
             // localStorage.removeItem('authSTore')
             // localStorage.removeItem('taskSTore')
             
