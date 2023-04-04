@@ -79,8 +79,8 @@ export default {
   <!-- filter -->
   <nav class="filter">
     <button type="button" class="btn active" @click="showModal">Add task</button>
-    <button @click="filters = 'all'" :class="{ active: filters === 'all' }">All tasks</button>
-    <button @click="filters = 'favs'" :class="{ active: filters === 'favs' }">Fav tasks</button>
+    <!-- <button @click="filters = 'all'" :class="{ active: filters === 'all' }">All tasks</button>
+    <button @click="filters = 'favs'" :class="{ active: filters === 'favs' }">Fav tasks</button> -->
   </nav>
 
   <div class="loading" v-if="taskStore.loading">

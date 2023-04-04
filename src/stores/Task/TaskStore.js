@@ -115,10 +115,12 @@ export const useTaskStore = defineStore('taskStore', {
             const res = await axios
                 .post(`/List/${TaskId}/list-item`, newSubTask )
                 .then(response => {
-                    console.log('response:'+JSON.stringify(response.data))
+                    console.log(response.data)
                     // this.tasks = response.data   
                     const subTask = this.tasks.find(t => t.id === TaskId)
-                    subTask.list_items.push(newSubTask)
+                    subTask.list_items = response.data.list_items
+                    console.log(subTask)
+                    // subTask.push(response.data)
                     // const subTaskData = subTask.list_items
                 })
                 .catch(error => {
@@ -146,9 +148,9 @@ export const useTaskStore = defineStore('taskStore', {
                 .then(response => {
                     // console.log(response.data)
                     // this.tasks = response.data
-                    this.tasks = this.tasks.filter(t => {
-                        return t.id !== taskId
-                    })
+                    // this.tasks = this.tasks.filter(t => {
+                    //     return t.id !== taskId
+                    // })
                 })
                 .catch(error => {
                     console.log(error)
