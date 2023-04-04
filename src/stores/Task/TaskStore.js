@@ -42,16 +42,9 @@ export const useTaskStore = defineStore('taskStore', {
             const result = await axios
             .post('/List',task)
             .then(response => {
-                console.log(response.data);
+                // console.log(response.data);
 
-                const newTask = this.tasks.find(t => t.id === task.id);
-                // newTask = response.data;         
-
-                console.log(newTask)
-                newTask.push(response.data);
-                // this.tasks = this.tasks.filter(t => {
-                //     return t.id !== task.id
-                // })
+                this.tasks.push(response.data)
                 // console.log(this.tasks) 
             })
             .catch(error => {

@@ -141,8 +141,8 @@ export const useAuthStore = defineStore('authStore', {
             localStorage.removeItem('accessToken')
             localStorage.removeItem('user')
 
-            // localStorage.removeItem('authSTore')
-            // localStorage.removeItem('taskSTore')
+            localStorage.removeItem('authStore')
+            localStorage.removeItem('taskStore')
             
             //If there was a logout endpoint
             // axios.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
