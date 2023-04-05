@@ -111,8 +111,15 @@ header h1 {
     text-align: center;
     margin: 30px auto;
 }
+.loading.error {
+    /* position: fixed; */
+    bottom:0;left: 0;right: 0;
+    color: white;
+    border: 1px solid #000000;
+    background: #ff005d ;
+   
+}
 .item_wrapper{
-
     padding: 6px 20px;
 }
 .task_wrapper {

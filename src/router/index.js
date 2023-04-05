@@ -30,6 +30,8 @@ const router = createRouter({
           name: 'docs',
           component: DocsDetail
         },
+        //TODO Update url for nested sub list
+        //TODO SHOW neshed url when modal is displayed
         // {
         //   path: '/lists',
         //   name: 'list-detail',

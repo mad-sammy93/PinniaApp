@@ -124,7 +124,7 @@ export const useAuthStore = defineStore('authStore', {
                     // console.log(response.data)
                     // this.tasks = response.data
 
-
+                    //TODO implement activation code, verify link
                     // user.sendEmailVerification(actionCodeSettings);
                 })
                 .catch(error => {
