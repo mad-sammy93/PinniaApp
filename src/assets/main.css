@@ -101,7 +101,18 @@ header h1 {
 .task .icons span.fav:hover{
     color: #ff005d;
 }
-
+.invalid input {
+    border-color: #ff005d;
+}
+.empty{
+    width: 60%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+.empty-state{
+    width: 100%;
+    margin: 0 auto;
+}
 .loading {
     max-width: 640px;
     border: 1px solid #ffd859;

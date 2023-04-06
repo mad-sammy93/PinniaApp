@@ -93,6 +93,11 @@ export default {
         <div class="list-item" v-for="task in taskStore.tasks">
           <TaskDetail :task="task"/>
         </div>
+
+        <div class="empty" v-if="taskStore.totalCount < 1">
+          <span>Its pretty lonely here</span>
+          <img class="empty-state" src="@/assets/empty-state.webp" alt="">
+        </div>
       </div>
       <div class="task-list" v-if="filters === 'favs'">
         <p>You have {{ taskStore.favCount }} Fav Tasks pending</p>

@@ -17,7 +17,7 @@ import { reactive, ref } from 'vue';
             const newSubTask = ref('')
             const taskStore = useTaskStore()
             const displayTaskModal = ref(false)
-            const data = reactive('')
+            // const data = reactive('')
 
             // const handleSubTaskSubmit = () => {
             //     if(newSubTask.value.length >0) {
