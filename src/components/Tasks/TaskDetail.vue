@@ -114,11 +114,11 @@ import { reactive, ref } from 'vue';
                     class="material-icons delete"
                     @click="taskStore.deleteTask(task.id)"
                 >delete</span>
-                <span 
+                <!-- <span 
                     class="material-icons fav"
                     :class= "{active: task.isFav}"
                     @click="taskStore.toggleFav(task.id)"
-                >favorite</span>
+                >favorite</span> -->
             </div>
         </div>
         <!-- <div  class="ind-item" v-for="item in task.list_items">
