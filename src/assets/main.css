@@ -36,6 +36,7 @@ header h1 {
     margin-left: 6px;
     cursor: pointer;
     color: #bbb;
+    transition: 400ms color;
 }
 .sub-task span {
     font-size: 1.4em;
@@ -47,7 +48,7 @@ header h1 {
     color: #ff005d;
 } 
 .new-task-form {
-    background-color: #e7e7e7;
+    background-color: transparent;
     padding: 20px 0px;
 }
 
@@ -91,7 +92,27 @@ header h1 {
 .task .icons{
     text-align: right;
 }
-
+.task .icons span.view:hover{
+    color: #42e0a3;
+}
+.task .icons span.delete:hover{
+    color: #2c2c2c;
+}
+.task .icons span.fav:hover{
+    color: #ff005d;
+}
+.invalid input {
+    border-color: #ff005d;
+}
+.empty{
+    width: 60%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+.empty-state{
+    width: 100%;
+    margin: 0 auto;
+}
 .loading {
     max-width: 640px;
     border: 1px solid #ffd859;
@@ -101,13 +122,19 @@ header h1 {
     text-align: center;
     margin: 30px auto;
 }
+.loading.error {
+    /* position: fixed; */
+    bottom:0;left: 0;right: 0;
+    color: white;
+    border: 1px solid #000000;
+    background: #ff005d ;
+   
+}
 .item_wrapper{
-
     padding: 6px 20px;
 }
 .task_wrapper {
-
-    padding: 0px 20px 20px;
+    padding: 5px 20px 5px;
     margin-top: 20px;
     border-radius: 4px;
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);

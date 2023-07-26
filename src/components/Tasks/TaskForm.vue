@@ -1,49 +1,93 @@
 <script>
 import { ref } from 'vue';
 import { useTaskStore } from '@/stores/Task/TaskStore';
+import console from 'console';
 
 
 export default {
-    setup () {
-           
+    setup() {
+
         const taskStore = useTaskStore();
         const newTask = ref('');
         const newSubTask = ref('')
+        //Validity
+        // const formIsValid = ref(true)
+        const taskTitleValidity = ref('pending')
+        var subTaskValidity = ref('pendning')
 
         const handleSubmit = () => {
-            if(newTask.value.length >0) {
-                console.log(newTask.value);
+            if (newTask.value.length > 0 && newSubTask.value.length > 0 ) {
+                // console.log(newTask.value);
                 taskStore.addTask({
                     // id:Math.floor(Math.random() * 10000),
                     // id:null,
-                    name:newTask.value,
+                    name: newTask.value,
                     // isFav:false,
-                    list_items:[{
+                    list_items: [{
                         // id:null,
-                        name:newSubTask.value
+                        name: newSubTask.value
                     }]
                 })
+                newTask.value = '';
+                newSubTask.value = '';
+            }else{
+                console.log('invalid');
             }
             // console.log(taskStore)
-            newTask.value = '';
+            
         }
-        return { handleSubmit, newTask , newSubTask}
+
+        const validateInput = () => {
+            if(newTask.value === ''){
+                taskTitleValidity.value = 'invalid'
+            }else{
+                taskTitleValidity.value = 'valid'
+
+            }
+            if(newSubTask.value === ''){
+                subTaskValidity.value = 'invalid'
+            }else{
+                subTaskValidity.value = 'valid'
+            }
+
+            // if(taskTitleValidity.value === 'valid' && subTaskValidity.value === 'valid'){
+            //     formIsValid.value = true
+            // }else{
+            //     formIsValid.value = false
+            // }
+
+        }
+        return { 
+            handleSubmit,
+            validateInput, 
+            newTask, 
+            newSubTask, 
+            // formIsValid ,
+            taskTitleValidity,
+            subTaskValidity }
     }
 }
 </script>
 
 <template>
     <form @submit.prevent="handleSubmit">
-        <input 
+        <div class="form-control" :class="{ invalid: taskTitleValidity === 'invalid'}">
+            <input 
             type="text"
             placeholder="Add title ..."
-            v-model="newTask"
+            v-model.trim="newTask"
+            @blur="validateInput"
             >
-            <!-- <input 
+            <p class="invalid" v-if="taskTitleValidity === 'invalid'">Title is invlid</p>
+        </div>
+        <div class="form-control" :class="{ invalid: taskTitleValidity === 'invalid'}">
+            <input 
             type="text"
             placeholder="I need to..."
-            v-model="newSubTask"
-            > -->
+            v-model.trim="newSubTask"
+            >
+            <p class="invalid" v-if="subTaskValidity === 'invalid'">Subtask Text is invlid</p>
+        </div>
             <button type="submit">Add</button>
     </form>
 </template>
@@ -54,7 +98,7 @@ form{
     max-width: 400px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 1fr;
     gap: 10px;
 }
 form button {

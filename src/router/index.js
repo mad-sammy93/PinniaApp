@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // Async Components
 const TaskPage = defineAsyncComponent(() =>
-  import('../components/pages/TaskPage.vue')
+  import('../components/Tasks/TaskPage.vue')
 );
 const DocsDetail = defineAsyncComponent(() =>
   import('../components/pages/Docs/DocsDetail.vue')
@@ -30,6 +30,8 @@ const router = createRouter({
           name: 'docs',
           component: DocsDetail
         },
+        //TODO Update url for nested sub list
+        //TODO SHOW neshed url when modal is displayed
         // {
         //   path: '/lists',
         //   name: 'list-detail',
